@@ -14,7 +14,7 @@ JsUtils = (function () {
             }
             return r;
         },
-        randomInt(min, max, excludeMin, excludeMax) {
+        randomInt: function(min, max, excludeMin, excludeMax) {
             if (!min || isNaN(min)) {
                 min = 0;
             }
@@ -31,7 +31,10 @@ JsUtils = (function () {
                 result = Math.floor(Math.random() * (max - min + 1)) + min;
             }
             return excludeMin ? result : ++result;
-        }
+        },
+		removeTrailingSlash: function(target) {
+			return target.replace(/\/$/, "");
+		}
     }
 
 }());
