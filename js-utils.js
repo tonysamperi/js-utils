@@ -1,7 +1,7 @@
 (function (exports) {
 
     function isClient() {
-        return !!window && !!window.document;
+        return typeof window !== "undefined" && !!window.document;
     }
 
     var clientJsUtils = (function () {
