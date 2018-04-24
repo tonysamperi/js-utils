@@ -1,6 +1,6 @@
 {
   "name": "hybrid-js-utils",
-  "version": "0.2.0",
+  "version": "1.0.1",
   "description": "Some common used JS functions",
   "main": "js-utils.js",
   "directories": {
