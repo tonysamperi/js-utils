@@ -1,0 +1,27 @@
+{
+  "name": "hybrid-js-utils",
+  "version": "0.2.0",
+  "description": "Some common used JS functions",
+  "main": "js-utils.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tonysamperi/js-utils.git"
+  },
+  "keywords": [
+    "js",
+    "utils",
+    "library",
+    "utility",
+    "utilities",
+    "javascript"
+  ],
+  "author": "Tony Samperi <github@tonysamperi.it> (tonysamperi.github.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tonysamperi/js-utils/issues"
+  },
+  "homepage": "https://github.com/tonysamperi/js-utils#readme"
+}
