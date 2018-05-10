@@ -43,6 +43,9 @@
 
     var JsUtils = (function () {
         hybridJsUtils = {
+			isNumeric: function(value){
+				return !isNaN(parseInt(value, 10));
+			},
             randomHex: function randomHex(len) {
                 var maxlen = 8;
                 var min = Math.pow(16, Math.min(len, maxlen) - 1);

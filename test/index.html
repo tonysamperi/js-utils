@@ -26,6 +26,7 @@
     <h3>JsUtils.roundNumber(2500, 1000) = <span id="test5"></span></h3>
     <h3>JsUtils.htmlCountDown(5000, 500) = <span id="test6"></span></h3>
     <h3>JsUtils.jQueryLoad() = (See console)</h3>
+    <h3>JsUtils.isNumeric("foo") = <span id="test7"></span></h3></h3>
 
     <script type="text/javascript">
         var $test1 = document.getElementById("test1");
@@ -33,6 +34,7 @@
         var $test3 = document.getElementById("test3");
         var $test5 = document.getElementById("test5");
         var $test6 = document.getElementById("test6");
+        var $test7 = document.getElementById("test7");
         $test1.innerHTML = JsUtils.randomInt(1, 10);
         $test2.innerHTML = JsUtils.randomHex(5);
         $test3.innerHTML = JsUtils.removeTrailingSlash("http://www.example.com/");
@@ -40,6 +42,7 @@
         $test5.innerHTML = JsUtils.roundNumber(2500, 1000);
         JsUtils.htmlCountDown(5000, 25, $test6);
         JsUtils.jQueryLoad();
+		$test7.innerHTML = JsUtils.isNumeric("foo") ? "YES":"NO";
     </script>
 </main>
 
