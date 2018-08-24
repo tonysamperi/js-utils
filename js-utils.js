@@ -58,23 +58,19 @@
                 return r;
             },
             randomInt: function (min, max, excludeMin, excludeMax) {
-                if (!min || isNaN(min)) {
-                    min = 0;
+                if (isNaN(min) || isNaN(max)) {
+                    console.error("Invalid args for JsUtils.randomInt");
+					return;
                 }
-                if (!max || isNaN(max)) {
-                    max = 1;
-                }
-                excludeMax = excludeMax == "true"; //forces to have true or "true"
-                excludeMin = excludeMin == "true"; //forces to have true or "true"
-                var result = 0;
-                if (excludeMax) {
-                    result = Math.random() * (max - min) + min;
-                }
-                else {
-                    result = Math.floor(Math.random() * (max - min + 1)) + min;
-                }
-                return excludeMin ? result : ++result;
+                excludeMax = !isNaN(+(excludeMax == "true") || +excludeMax); //forces to have true or "true"
+                excludeMin = !isNaN(+(excludeMin == "true") || +excludeMin); //forces to have true or "true"
+                excludeMax && max--;
+				excludeMin && min++;
+                return Math.floor(Math.random() * (max - min + 1)) + min;
             },
+			removeMultipleSpaces: function (target){
+				return target.replace(/\s\s+/g, ' ');
+			},
             removeTrailingSlash: function (target) {
                 return target.replace(/\/$/, "");
             },
