@@ -1,6 +1,6 @@
-# Hybrid JS Utils
+# Hybrid JS Utils 2
 
-A simple library of common used functions
+A simple set of commonly used Javascript functions
 
 ## Getting Started
 
