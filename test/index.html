@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Hybrid JS Utils</title>
+		<meta name="description" content="">
+	</head>
+	<body>
+		<header>
+			<!-- site-wide header -->
+			<h1>Hybrid JS Utils test page <!-- site name --></h1>
+		</header>
+
+		<main>
+			<!-- this page’s main content -->
+			<script type="text/javascript" src="hybrid-js-utils.umd.js"></script>
+			<h3>hybridJsUtils.randomInt(1, 10) = <span id="test1"></span></h3>
+			<h3>hybridJsUtils.randomHex(5) = <span id="test2"></span></h3>
+			<h3>hybridJsUtils.removeTrailingSlash("http://www.example.com/") = <span id="test3"></span></h3>
+			<h3>hybridJsUtils.logWithStyle("Test", "My msg", "color: #CC0000; font-weight: bold") = <span
+					id="test4">(See console)</span></h3>
+			<h3>hybridJsUtils.roundNumber(2500, 1000) = <span id="test5"></span></h3>
+			<h3>hybridJsUtils.htmlCountDown(5000, 500) = <span id="test6"></span></h3>
+			<h3>hybridJsUtils.jQueryLoad() = (See console)</h3>
+			<h3>hybridJsUtils.isNumeric("foo") = <span id="test7"></span></h3></h3>
+
+			<script type="text/javascript">
+              var $test1 = document.getElementById('test1')
+              var $test2 = document.getElementById('test2')
+              var $test3 = document.getElementById('test3')
+              var $test5 = document.getElementById('test5')
+              var $test6 = document.getElementById('test6')
+              var $test7 = document.getElementById('test7')
+              $test1.innerHTML = hybridJsUtils.randomInt(1, 10)
+              $test2.innerHTML = hybridJsUtils.randomHex(5)
+              $test3.innerHTML = hybridJsUtils.removeTrailingSlash('http://www.example.com/')
+              hybridJsUtils.logWithStyle('Test', 'My msg', 'color: #CC0000; font-weight: bold')
+              $test5.innerHTML = hybridJsUtils.roundNumber(2500, 1000)
+              hybridJsUtils.htmlCountDown(5000, 25, $test6)
+              hybridJsUtils.jQueryLoad()
+              $test7.innerHTML = hybridJsUtils.isNumeric('foo') ? 'YES' : 'NO'
+			</script>
+		</main>
+
+		<nav>
+			<!-- site-wide navigation -->
+		</nav>
+
+		<footer>
+			<!-- site-wide footer -->
+		</footer>
+
+	</body>
+</html>
