@@ -1,0 +1,5 @@
+.hjs-test-wrap > h3 {
+    border-bottom: 1px solid #BBB;
+    padding-bottom: 8px;
+    text-transform: initial;
+}
