@@ -1,6 +1,10 @@
 #project folders to ignore
 demo
 .idea
+node_modules
+.rpt2_cache
+docs
+dist
 
 # Windows image file caches
 Thumbs.db
