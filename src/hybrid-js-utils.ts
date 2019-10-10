@@ -12,14 +12,19 @@ const hybridJsUtils: HybridJSUtils = (function () {
          * @param duration value in milliseconds to wait for
          * @param updateFreq value in milliseconds to refresh
          * @param targetEl a DOM element where the countdown will be appended
+         *
+         * @returns Promise with last value for counter, to check if everything went ok.
          */
-        htmlCountDown(duration: number, updateFreq: number, targetEl: HTMLElement): Promise<void> {
-            return new Promise<void>((resolve) => {
-                let counter: number = this.roundNumber(duration, 2) / 1000;
+        htmlCountDown(duration: number, updateFreq: number, targetEl: HTMLElement): Promise<number> {
+            return new Promise<number>((resolve) => {
+                let counter: number = this.roundNumber(duration / 1000, 2);
+                const counterDiff = updateFreq / 1000;
                 let interval: any;
                 const print = () => {
-                    counter -= updateFreq / 1000;
-                    counter < 0 && (counter = 0);
+                    counter -= counterDiff;
+                    if (counter < 0 || counter < counterDiff) {
+                        counter = 0;
+                    }
                     targetEl.innerHTML = counter.toFixed(2);
                 };
                 interval = setInterval(function () {
@@ -28,7 +33,7 @@ const hybridJsUtils: HybridJSUtils = (function () {
                 setTimeout(() => {
                     clearInterval(interval);
                     print();
-                    resolve();
+                    resolve(counter);
                 }, duration);
             });
         },

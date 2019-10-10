@@ -1,6 +1,6 @@
 export interface HybridJSUtils {
     isClient: () => boolean;
-    htmlCountDown: (duration: number, updateFreq: number, targetEl: HTMLElement) => Promise<void>;
+    htmlCountDown: (duration: number, updateFreq: number, targetEl: HTMLElement) => Promise<number>;
     loadJQuery: (version?: string) => Promise<boolean>;
     logWithStyle: (title: string, msg: string, style?: string) => void;
     addLeadingZeroes: (numeric: number | string) => string;

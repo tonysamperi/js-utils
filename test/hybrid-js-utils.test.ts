@@ -41,11 +41,11 @@ describe("HybridJSUtils test", () => {
         expect(HybridJSUtils.isClient()).toBeFalsy();
     });
 
-    it("should be void (htmlCountDown)", (done) => {
+    it("should return zero (htmlCountDown)", (done) => {
         const $target = dom.window.document.body;
         HybridJSUtils.htmlCountDown(3500, 500, $target)
-        .then((data) => {
-            expect(data).toBe(void 0);
+        .then((counter) => {
+            expect(counter).toBe(0);
             done();
         });
     });

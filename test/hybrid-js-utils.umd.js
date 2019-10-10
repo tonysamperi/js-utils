@@ -18,15 +18,20 @@
              * @param duration value in milliseconds to wait for
              * @param updateFreq value in milliseconds to refresh
              * @param targetEl a DOM element where the countdown will be appended
+             *
+             * @returns Promise with last value for counter, to check if everything went ok.
              */
             htmlCountDown: function (duration, updateFreq, targetEl) {
                 var _this = this;
                 return new Promise(function (resolve) {
-                    var counter = _this.roundNumber(duration, 2) / 1000;
+                    var counter = _this.roundNumber(duration / 1000, 2);
+                    var counterDiff = updateFreq / 1000;
                     var interval;
                     var print = function () {
-                        counter -= updateFreq / 1000;
-                        counter < 0 && (counter = 0);
+                        counter -= counterDiff;
+                        if (counter < 0 || counter < counterDiff) {
+                            counter = 0;
+                        }
                         targetEl.innerHTML = counter.toFixed(2);
                     };
                     interval = setInterval(function () {
@@ -35,7 +40,7 @@
                     setTimeout(function () {
                         clearInterval(interval);
                         print();
-                        resolve();
+                        resolve(counter);
                     }, duration);
                 });
             },
