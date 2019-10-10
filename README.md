@@ -1,4 +1,4 @@
-# Hybrid JS Utils 2
+# Hybrid JS Utils 2 [![Build Status](https://travis-ci.org/tonysamperi/js-utils.svg?branch=master)](https://travis-ci.org/tonysamperi/js-utils)
 
 A simple set of commonly used Javascript functions
 
