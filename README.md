@@ -29,7 +29,12 @@ You can check some functionalities by opening the ./test/index.html in your brow
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+* Step 1. Clone this repo
+* Step 2. Run `npm i` in the download path
+* Step 3. You can edit this library by edinting files under `src/`
+* Step 4. You can edit/add tests under `test/hybrid-js-utils.test.ts` (do not edit index and js)
+* Step 4. Run `npm run test`
+* Step 5. If test *PASSES* you can make a pull request, otherwise, go back to step 3 and repeat.
 
 ## Versioning
 
@@ -39,8 +44,6 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 * **Tony Samperi** - *Initial work* - [TonySamperi](https://github.com/TonySamperi)
 
-See also the list of [contributors](https://github.com/tonysamperi/js-utils/contributors) who participated in this project.
-
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
