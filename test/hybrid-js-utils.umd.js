@@ -4,14 +4,38 @@
     (factory((global.hybridJsUtils = {})));
 }(this, (function (exports) { 'use strict';
 
+    /*! *****************************************************************************
+    Copyright (c) Microsoft Corporation.
+
+    Permission to use, copy, modify, and/or distribute this software for any
+    purpose with or without fee is hereby granted.
+
+    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+    REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+    AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+    INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+    LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+    OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+    PERFORMANCE OF THIS SOFTWARE.
+    ***************************************************************************** */
+
+    function __spreadArrays() {
+        for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+        for (var r = Array(s), k = 0, i = 0; i < il; i++)
+            for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+                r[k] = a[j];
+        return r;
+    }
+
     function jsVersionError(methodName) {
         console.error("Can't execute \"" + methodName + ", since you're not using client JS!");
     }
 
     var hybridJsUtils = (function () {
-        return {
-            isClient: function () {
-                return typeof window !== "undefined" && !!window.document;
+        var lib = {
+            addLeadingZeroes: function (numeric) {
+                numeric = "" + numeric; // Convert to string;
+                return ("00" + numeric).slice(-2);
             },
             /**
              *
@@ -43,6 +67,9 @@
                         resolve(counter);
                     }, duration);
                 });
+            },
+            isClient: function () {
+                return typeof window !== "undefined" && !!window.document;
             },
             loadJQuery: function (version) {
                 if (version === void 0) { version = "1.12.0"; }
@@ -79,15 +106,19 @@
                     console.log("***** ***** *****");
                 }
             },
-            addLeadingZeroes: function (numeric) {
-                numeric = "" + numeric; // Convert to string;
-                return ("00" + numeric).slice(-2);
-            },
             isNumeric: function (value) {
                 return !isNaN(parseInt(value, 10));
             },
             isObject: function (entity) {
                 return !!entity && entity === Object(entity) && entity.constructor === Object;
+            },
+            objectKeysToCamelCase: function (source) {
+                var result = {};
+                Object.keys(source).forEach(function (key) {
+                    // tslint:disable-next-line:max-line-length
+                    result[lib.toCamelCase(key)] = Object.keys(source[key]).length > 0 && !Array.isArray(source) ? lib.objectKeysToCamelCase(source[key]) : source[key];
+                });
+                return result;
             },
             randomHex: function (length) {
                 var maxlen = 8;
@@ -115,6 +146,15 @@
                 excludeMin && min++;
                 return Math.floor(Math.random() * (max - min + 1)) + min;
             },
+            randomNumericString: function (length) {
+                if (length === void 0) { length = 10; }
+                var i = -1;
+                var result = [];
+                while (++i < length) {
+                    result.push(randomInt(0, 5, !0, !0));
+                }
+                return result.join("");
+            },
             removeMultipleSpaces: function (source) {
                 return source.replace(/\s\s+/g, " ");
             },
@@ -131,8 +171,33 @@
                 }
                 var factor = Math.pow(10, decimalDigits);
                 return Math.round(+value * factor) / factor;
+            },
+            sprintf: function (str) {
+                var argv = [];
+                for (var _i = 1; _i < arguments.length; _i++) {
+                    argv[_i - 1] = arguments[_i];
+                }
+                return !argv.length ? str : lib.sprintf.apply(lib, __spreadArrays([str = str.replace("%s", "" + argv.shift())], argv));
+            },
+            toCamelCase: function (s) {
+                return s
+                    .replace(/_/g, " ")
+                    .replace(/\s(.)/g, function ($1) {
+                    return $1.toUpperCase();
+                })
+                    .replace(/\s/g, "")
+                    .replace(/^(.)/, function ($1) {
+                    return $1.toLowerCase();
+                });
+            },
+            toSnakeCase: function (s) {
+                return s
+                    .replace(/\.?([A-Z]+)/g, function (_x_, y) {
+                    return "_" + y.toLowerCase();
+                }).replace(/^_/, "");
             }
         };
+        return lib;
     })();
     var isClient = hybridJsUtils.isClient;
     var htmlCountDown = hybridJsUtils.htmlCountDown;
@@ -141,11 +206,16 @@
     var addLeadingZeroes = hybridJsUtils.addLeadingZeroes;
     var isNumeric = hybridJsUtils.isNumeric;
     var isObject = hybridJsUtils.isObject;
+    var objectKeysToCamelCase = hybridJsUtils.objectKeysToCamelCase;
     var randomHex = hybridJsUtils.randomHex;
     var randomInt = hybridJsUtils.randomInt;
+    var randomNumericString = hybridJsUtils.randomNumericString;
     var removeMultipleSpaces = hybridJsUtils.removeMultipleSpaces;
     var removeTrailingSlash = hybridJsUtils.removeTrailingSlash;
     var roundNumber = hybridJsUtils.roundNumber;
+    var sprintf = hybridJsUtils.sprintf;
+    var toCamelCase = hybridJsUtils.toCamelCase;
+    var toSnakeCase = hybridJsUtils.toSnakeCase;
 
     exports.isClient = isClient;
     exports.htmlCountDown = htmlCountDown;
@@ -154,11 +224,16 @@
     exports.addLeadingZeroes = addLeadingZeroes;
     exports.isNumeric = isNumeric;
     exports.isObject = isObject;
+    exports.objectKeysToCamelCase = objectKeysToCamelCase;
     exports.randomHex = randomHex;
     exports.randomInt = randomInt;
+    exports.randomNumericString = randomNumericString;
     exports.removeMultipleSpaces = removeMultipleSpaces;
     exports.removeTrailingSlash = removeTrailingSlash;
     exports.roundNumber = roundNumber;
+    exports.sprintf = sprintf;
+    exports.toCamelCase = toCamelCase;
+    exports.toSnakeCase = toSnakeCase;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 

@@ -162,5 +162,44 @@ describe("HybridJSUtils test", () => {
         expect(invalidValue).toThrow(new Error("HybridJsUtils.roundNumber: invalid value supplied"));
         expect(invalidDecimalDigits).toThrow(new Error("HybridJsUtils.roundNumber: decimalDigits must be a positive integer!"));
     });
+
+    it("should generate a random numeric string", () => {
+        const strlen = 11;
+        const numericString = HybridJSUtils.randomNumericString(strlen);
+        expect(numericString).toBeDefined();
+        expect(numericString).toHaveLength(strlen);
+    });
+
+    it("should 'sprintf' a string", () => {
+        const string = "Hi I'm %s";
+        const name = "John";
+        const result = HybridJSUtils.sprintf(string, name);
+        expect(result).toBeDefined();
+        expect(result).toBe(string.replace("%s", name));
+    });
+
+    it("should 'camelCase' a string", () => {
+        const string = "Hi I'm John";
+        const result = HybridJSUtils.toCamelCase(string);
+        expect(result).toBeDefined();
+        expect(result).toBe("hiI'mJohn");
+    });
+
+    it("should 'camelCase' a string", () => {
+        const string = "Hi I'm John";
+        const result = HybridJSUtils.toSnakeCase(string);
+        expect(result).toBeDefined();
+        expect(result).toBe("hi _i'm _john");
+    });
+
+    it("should convert object keys", () => {
+        const source = {
+            "foo_key": 1,
+            "bar_key": 2
+        };
+        const result = HybridJSUtils.objectKeysToCamelCase(source);
+        expect(Object.keys(result).length).toBe(Object.keys(source).length);
+        expect(Object.keys(result)).toEqual(["fooKey", "barKey"]);
+    });
 })
 ;

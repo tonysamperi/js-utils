@@ -10,3 +10,11 @@
 ## 2.0.3
 * Fixed countdown not setting to 0 in some cases
 * Added counter value in the return Promise for countdown
+
+## 2.0.4
+* Added methods for 
+    * objectKeysToCamelCase
+    * randomNumericString
+    * sprintf
+    * toCamelCase
+    * toSnakeCase

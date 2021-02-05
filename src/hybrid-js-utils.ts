@@ -2,9 +2,10 @@ import {HybridJSUtils, jsVersionError} from "./model/hybrid-js-utils.model";
 
 const hybridJsUtils: HybridJSUtils = (function () {
 
-    return {
-        isClient(): boolean {
-            return typeof window !== "undefined" && !!window.document;
+    const lib: HybridJSUtils = {
+        addLeadingZeroes(numeric: number | string): string {
+            numeric = "" + numeric; // Convert to string;
+            return ("00" + numeric).slice(-2);
         },
 
         /**
@@ -36,6 +37,10 @@ const hybridJsUtils: HybridJSUtils = (function () {
                     resolve(counter);
                 }, duration);
             });
+        },
+
+        isClient(): boolean {
+            return typeof window !== "undefined" && !!window.document;
         },
 
         loadJQuery(version: string = "1.12.0"): Promise<boolean> {
@@ -73,17 +78,22 @@ const hybridJsUtils: HybridJSUtils = (function () {
             }
         },
 
-        addLeadingZeroes(numeric: number | string): string {
-            numeric = "" + numeric; // Convert to string;
-            return ("00" + numeric).slice(-2);
-        },
-
         isNumeric(value: string): boolean {
             return !isNaN(parseInt(value, 10));
         },
 
         isObject(entity: any): boolean {
             return !!entity && entity === Object(entity) && entity.constructor === Object;
+        },
+
+        objectKeysToCamelCase: (source: { [key: string]: any }): { [key: string]: any } => {
+            const result: { [key: string]: any } = {};
+            Object.keys(source).forEach((key: string) => {
+                // tslint:disable-next-line:max-line-length
+                result[lib.toCamelCase(key)] = Object.keys(source[key]).length > 0 && !Array.isArray(source) ? lib.objectKeysToCamelCase(source[key]) : source[key];
+            });
+
+            return result;
         },
 
         randomHex(length: number): string {
@@ -112,6 +122,15 @@ const hybridJsUtils: HybridJSUtils = (function () {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         },
 
+        randomNumericString: (length: number = 10): string => {
+            let i = -1;
+            const result = [];
+            while (++i < length) {
+                result.push(randomInt(0, 5, !0, !0));
+            }
+            return result.join("");
+        },
+
         removeMultipleSpaces(source: string): string {
             return source.replace(/\s\s+/g, " ");
         },
@@ -129,21 +148,51 @@ const hybridJsUtils: HybridJSUtils = (function () {
             }
             const factor = 10 ** decimalDigits;
             return Math.round(+value * factor) / factor;
+        },
+
+        sprintf: (str: string, ...argv: string[]): string => {
+            return !argv.length ? str : lib.sprintf(str = str.replace("%s", `${argv.shift()}`), ...argv);
+        },
+
+        toCamelCase: (s: string): string => {
+            return s
+            .replace(/_/g, " ")
+            .replace(/\s(.)/g, ($1: string) => {
+                return $1.toUpperCase();
+            })
+            .replace(/\s/g, "")
+            .replace(/^(.)/, ($1: string) => {
+                return $1.toLowerCase();
+            });
+        },
+
+        toSnakeCase: (s: string): string => {
+            return s
+            .replace(/\.?([A-Z]+)/g, (_x_, y) => {
+                return "_" + y.toLowerCase();
+            }).replace(/^_/, "");
         }
     };
+
+    return lib;
 
 })();
 
 export {HybridJSUtils} from "./model/hybrid-js-utils.model";
-export let isClient = hybridJsUtils.isClient;
-export let htmlCountDown = hybridJsUtils.htmlCountDown;
-export let loadJQuery = hybridJsUtils.loadJQuery;
-export let logWithStyle = hybridJsUtils.logWithStyle;
-export let addLeadingZeroes = hybridJsUtils.addLeadingZeroes;
-export let isNumeric = hybridJsUtils.isNumeric;
-export let isObject = hybridJsUtils.isObject;
-export let randomHex = hybridJsUtils.randomHex;
-export let randomInt = hybridJsUtils.randomInt;
-export let removeMultipleSpaces = hybridJsUtils.removeMultipleSpaces;
-export let removeTrailingSlash = hybridJsUtils.removeTrailingSlash;
-export let roundNumber = hybridJsUtils.roundNumber;
+export const isClient = hybridJsUtils.isClient;
+export const htmlCountDown = hybridJsUtils.htmlCountDown;
+export const loadJQuery = hybridJsUtils.loadJQuery;
+export const logWithStyle = hybridJsUtils.logWithStyle;
+export const addLeadingZeroes = hybridJsUtils.addLeadingZeroes;
+export const isNumeric = hybridJsUtils.isNumeric;
+export const isObject = hybridJsUtils.isObject;
+export const objectKeysToCamelCase = hybridJsUtils.objectKeysToCamelCase;
+export const randomHex = hybridJsUtils.randomHex;
+export const randomInt = hybridJsUtils.randomInt;
+export const randomNumericString = hybridJsUtils.randomNumericString;
+export const removeMultipleSpaces = hybridJsUtils.removeMultipleSpaces;
+export const removeTrailingSlash = hybridJsUtils.removeTrailingSlash;
+export const roundNumber = hybridJsUtils.roundNumber;
+export const sprintf = hybridJsUtils.sprintf;
+export const toCamelCase = hybridJsUtils.toCamelCase;
+export const toSnakeCase = hybridJsUtils.toSnakeCase;
