@@ -5,6 +5,7 @@ node_modules
 .rpt2_cache
 docs
 dist
+coverage
 
 # Windows image file caches
 Thumbs.db
