@@ -126,7 +126,7 @@ const hybridJsUtils: HybridJSUtils = (function () {
             let i = -1;
             const result = [];
             while (++i < length) {
-                result.push(randomInt(0, 5, !0, !0));
+                result.push(lib.randomInt(0, 5, !0, !0));
             }
             return result.join("");
         },

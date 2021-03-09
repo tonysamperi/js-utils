@@ -22,7 +22,7 @@
 ## 2.0.5
 * Improve sprintf
 
-## 2.0.6
+## 2.0.7
 * Fix use-before-declare
 
 
