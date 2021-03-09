@@ -151,7 +151,7 @@
                 var i = -1;
                 var result = [];
                 while (++i < length) {
-                    result.push(randomInt(0, 5, !0, !0));
+                    result.push(this.randomInt(0, 5, !0, !0));
                 }
                 return result.join("");
             },

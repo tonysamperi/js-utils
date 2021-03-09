@@ -44,10 +44,10 @@ describe("HybridJSUtils test", () => {
     it("should return zero (htmlCountDown)", (done) => {
         const $target = dom.window.document.body;
         HybridJSUtils.htmlCountDown(3500, 500, $target)
-        .then((counter) => {
-            expect(counter).toBe(0);
-            done();
-        });
+            .then((counter) => {
+                expect(counter).toBe(0);
+                done();
+            });
     });
 
     it("should fail to loadJQuery", (done) => {
@@ -170,12 +170,21 @@ describe("HybridJSUtils test", () => {
         expect(numericString).toHaveLength(strlen);
     });
 
-    it("should 'sprintf' a string", () => {
+    it("should \"sprintf\" a string", () => {
         const string = "Hi I'm %s";
         const name = "John";
         const result = HybridJSUtils.sprintf(string, name);
         expect(result).toBeDefined();
         expect(result).toBe(string.replace("%s", name));
+    });
+
+    it("shouldn't explode when \"sprintf\" receives anything but a string", () => {
+        const getStr = (): string => {
+            return (global as any).foo as string;
+        };
+        const name = "John";
+        const result = HybridJSUtils.sprintf(getStr(), name);
+        expect(result).toBe(getStr());
     });
 
     it("should 'camelCase' a string", () => {

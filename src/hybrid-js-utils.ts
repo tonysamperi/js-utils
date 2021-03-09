@@ -151,26 +151,30 @@ const hybridJsUtils: HybridJSUtils = (function () {
         },
 
         sprintf: (str: string, ...argv: string[]): string => {
+            if (typeof str !== typeof "") {
+                return str;
+            }
+
             return !argv.length ? str : lib.sprintf(str = str.replace("%s", `${argv.shift()}`), ...argv);
         },
 
         toCamelCase: (s: string): string => {
             return s
-            .replace(/_/g, " ")
-            .replace(/\s(.)/g, ($1: string) => {
-                return $1.toUpperCase();
-            })
-            .replace(/\s/g, "")
-            .replace(/^(.)/, ($1: string) => {
-                return $1.toLowerCase();
-            });
+                .replace(/_/g, " ")
+                .replace(/\s(.)/g, ($1: string) => {
+                    return $1.toUpperCase();
+                })
+                .replace(/\s/g, "")
+                .replace(/^(.)/, ($1: string) => {
+                    return $1.toLowerCase();
+                });
         },
 
         toSnakeCase: (s: string): string => {
             return s
-            .replace(/\.?([A-Z]+)/g, (_x_, y) => {
-                return "_" + y.toLowerCase();
-            }).replace(/^_/, "");
+                .replace(/\.?([A-Z]+)/g, (_x_, y) => {
+                    return "_" + y.toLowerCase();
+                }).replace(/^_/, "");
         }
     };
 

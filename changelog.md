@@ -18,3 +18,12 @@
     * sprintf
     * toCamelCase
     * toSnakeCase
+    
+## 2.0.5
+* Improve sprintf
+
+## 2.0.6
+* Fix use-before-declare
+
+
+
