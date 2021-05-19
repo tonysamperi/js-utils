@@ -185,12 +185,12 @@ export class HybridJSUtils {
         return Math.round(+value * factor) / factor;
     }
 
-    static sprintf(str: string, ...argv: string[]): string {
+    static sprintf(str: string, ...argv: any[]): string {
         if (typeof str !== typeof "") {
             return str;
         }
 
-        return !argv.length ? str : this.sprintf(str = str.replace("%s", `${argv.shift()}`), ...argv);
+        return !argv.length ? str : this.sprintf(str = str.replace("%s", JSON.stringify(argv.shift())), ...argv);
     }
 
     static toCamelCase(s: string): string {

@@ -36,3 +36,6 @@
 
 ## 3.0.0
 * Changed source to class. Major version update because of the dramatic change, but it should continue to work as it did before, so it will be most likely compatible with previous installations.
+
+## 3.0.1
+* Improved sprintf to print everything! 🎉
