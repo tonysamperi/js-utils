@@ -1,5 +1,7 @@
 export interface HybridJSUtils {
     isClient: () => boolean;
+    eachFrom: <T = any>(array: T[], index: number, iteratee: (item: T, index: number, source: T[]) => any) => T[];
+    forEachFrom: <T = any>(array: T[], index: number, iteratee: (item: T, index: number, source: T[]) => any) => T[];
     htmlCountDown: (duration: number, updateFreq: number, targetEl: HTMLElement) => Promise<number>;
     loadJQuery: (version?: string) => Promise<boolean>;
     logWithStyle: (title: string, msg: string, style?: string) => void;

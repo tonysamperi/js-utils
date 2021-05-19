@@ -25,5 +25,12 @@
 ## 2.0.7
 * Fix use-before-declare
 
+## 2.0.8
+* Added forEachFrom to iterate over arrays starting at custom index
 
+## 2.0.9
+* Fixed eachFrom alias not using custom index
+* Added tests for eachFrom / forEachFrom
+* Removed useless dependency
+* Changed rollup extension (since it was pointlessly ts)
 

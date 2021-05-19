@@ -20,6 +20,7 @@ const dom = new JSDOM(html, {runScripts: "dangerously", resources: "usable"});
  * logWithStyle
  * //
  * addLeadingZeroes
+ * forEachFrom
  * isNumeric
  * isObject
  * randomHex
@@ -44,10 +45,10 @@ describe("HybridJSUtils test", () => {
     it("should return zero (htmlCountDown)", (done) => {
         const $target = dom.window.document.body;
         HybridJSUtils.htmlCountDown(3500, 500, $target)
-            .then((counter) => {
-                expect(counter).toBe(0);
-                done();
-            });
+        .then((counter) => {
+            expect(counter).toBe(0);
+            done();
+        });
     });
 
     it("should fail to loadJQuery", (done) => {
@@ -94,19 +95,101 @@ describe("HybridJSUtils test", () => {
         expect((console.log as any).mock.calls[0][0]).toBe(`%c${msg}`);
     });
 
+    /**
+     * ADD LEADING ZEROES
+     */
+
     it("should add leading zeroes", () => {
         expect(HybridJSUtils.addLeadingZeroes(3)).toBe("03");
     });
+
+    /**
+     * ARRAYS
+     */
+    interface FooBar {
+        foo: any;
+        bar: any;
+    }
+
+    const testArray: FooBar[] = [
+        {foo: 1, bar: "a"},
+        {foo: 2, bar: "b"}
+    ];
+    let tmp: FooBar[];
+    let res: FooBar[];
+    it("should loop over the full array (alias)", () => {
+        tmp = [];
+        res = HybridJSUtils.eachFrom(testArray, 0, (item) => {
+            tmp.push(item);
+        });
+        expect(tmp.length).toBe(testArray.length);
+        expect(tmp).toEqual(testArray);
+        expect(res).toEqual(testArray);
+    });
+
+    it("should loop over the full array", () => {
+        tmp = [];
+        res = HybridJSUtils.forEachFrom(testArray, 0, (item) => {
+            tmp.push(item);
+        });
+        expect(tmp.length).toBe(testArray.length);
+        expect(tmp).toEqual(testArray);
+        expect(res).toEqual(testArray);
+    });
+
+    it("should loop over the array from desired index (alias)", () => {
+        tmp = [];
+        res = HybridJSUtils.eachFrom(testArray, 1, (item) => {
+            tmp.push(item);
+        });
+        expect(tmp.length).toBe(testArray.slice(1).length);
+        expect(tmp).toEqual(testArray.slice(1));
+        expect(res).toEqual(testArray);
+    });
+
+    it("should loop over the array from desired index", () => {
+        tmp = [];
+        res = HybridJSUtils.forEachFrom(testArray, 1, (item) => {
+            tmp.push(item);
+        });
+        expect(tmp.length).toBe(testArray.slice(1).length);
+        expect(tmp).toEqual(testArray.slice(1));
+        expect(res).toEqual(testArray);
+    });
+
+    it("should mutate the items", () => {
+        res = HybridJSUtils.forEachFrom(testArray, 0, (item) => {
+            item.foo++;
+            item.bar += "z";
+        });
+        expect(testArray).toEqual([
+            {foo: 2, bar: "az"},
+            {foo: 3, bar: "bz"}
+        ]);
+        expect(res).toEqual(testArray);
+    });
+
+    /**
+     * CHECK NUMERIC
+     */
 
     it("should check numerics", () => {
         expect(HybridJSUtils.isNumeric("3")).toBeTruthy();
         expect(HybridJSUtils.isNumeric("N")).toBeFalsy();
     });
 
+    /**
+     * CHECK OBJECTS
+     */
+
     it("should check entities to be objects", () => {
         expect(HybridJSUtils.isObject({foo: "bar"})).toBeTruthy();
         expect(HybridJSUtils.isObject("N")).toBeFalsy();
     });
+
+    /**
+     * CREATE HEX
+     */
 
     it("should create a random hex", () => {
         const hexLength = 10;
@@ -116,6 +199,10 @@ describe("HybridJSUtils test", () => {
         expect(parseInt(random, 16)).toBeGreaterThanOrEqual(0);
         expect(random).toMatch(new RegExp("\\b[0-9A-F]{" + hexLength + "}\\b", "gi"));
     });
+
+    /**
+     * CREATE INTEGER
+     */
 
     it("should create a random integer", () => {
         const random1 = HybridJSUtils.randomInt(0, 10);
@@ -130,16 +217,28 @@ describe("HybridJSUtils test", () => {
 
     });
 
+    /**
+     * TRIM MULTIPLE SPACES
+     */
+
     it("should remove multiple spaces", () => {
         const trimmed = HybridJSUtils.removeMultipleSpaces("FOO  BAR   GOO  CAR");
         expect(trimmed).toBe("FOO BAR GOO CAR");
     });
+
+    /**
+     * REMOVE TRAILING SLASH
+     */
 
     it("should remove trailing slash", () => {
         const url = "http://www.google.it";
         const trimmed = HybridJSUtils.removeTrailingSlash(url + "/");
         expect(trimmed).toBe(url);
     });
+
+    /**
+     * ROUND NUMBER
+     */
 
     it("should round number", () => {
         const source1 = 5.25;
@@ -163,12 +262,20 @@ describe("HybridJSUtils test", () => {
         expect(invalidDecimalDigits).toThrow(new Error("HybridJsUtils.roundNumber: decimalDigits must be a positive integer!"));
     });
 
+    /**
+     * CREATE RANDOM NUMERIC STRING
+     */
+
     it("should generate a random numeric string", () => {
         const strlen = 11;
         const numericString = HybridJSUtils.randomNumericString(strlen);
         expect(numericString).toBeDefined();
         expect(numericString).toHaveLength(strlen);
     });
+
+    /**
+     * SPRINTF
+     */
 
     it("should \"sprintf\" a string", () => {
         const string = "Hi I'm %s";
@@ -186,6 +293,10 @@ describe("HybridJSUtils test", () => {
         const result = HybridJSUtils.sprintf(getStr(), name);
         expect(result).toBe(getStr());
     });
+
+    /**
+     * STRING MANIPULATION
+     */
 
     it("should 'camelCase' a string", () => {
         const string = "Hi I'm John";

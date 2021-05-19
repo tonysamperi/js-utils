@@ -7,7 +7,36 @@ const hybridJsUtils: HybridJSUtils = (function () {
             numeric = "" + numeric; // Convert to string;
             return ("00" + numeric).slice(-2);
         },
+        /**
+         * Alias for forEachFrom, see forEachFrom
+         */
+        eachFrom<T = any>(array: T[], index: number, iteratee: (item: T, index: number, source: T[]) => any): T[] {
+            return lib.forEachFrom(array, index, iteratee);
+        },
+        /**
+         * Loop over arrays starting from desired index
+         * @param array: the list to iterate
+         * @param index: the starting index
+         * @param iteratee: the function to invoke in each iteration
+         *
+         * @returns The array
+         */
+        forEachFrom<T = any[]>(array: T[], index: number, iteratee: (item: T, index: number, source: T[]) => any): T[] {
+            if (!Array.isArray(array)) {
+                console.error(`eachFrom only accept arrays as source, found instead ${typeof array}`);
+                return array;
+            }
+            // tslint:disable-next-line:naming-convention
+            let _index = typeof index !== typeof 0 || index < 0 ? -1 : index - 1;
+            const length = array == null ? 0 : array.length;
 
+            while (++_index < length) {
+                if (iteratee(array[_index], _index, array) === false) {
+                    break;
+                }
+            }
+            return array;
+        },
         /**
          *
          * @param duration value in milliseconds to wait for
@@ -160,21 +189,21 @@ const hybridJsUtils: HybridJSUtils = (function () {
 
         toCamelCase: (s: string): string => {
             return s
-                .replace(/_/g, " ")
-                .replace(/\s(.)/g, ($1: string) => {
-                    return $1.toUpperCase();
-                })
-                .replace(/\s/g, "")
-                .replace(/^(.)/, ($1: string) => {
-                    return $1.toLowerCase();
-                });
+            .replace(/_/g, " ")
+            .replace(/\s(.)/g, ($1: string) => {
+                return $1.toUpperCase();
+            })
+            .replace(/\s/g, "")
+            .replace(/^(.)/, ($1: string) => {
+                return $1.toLowerCase();
+            });
         },
 
         toSnakeCase: (s: string): string => {
             return s
-                .replace(/\.?([A-Z]+)/g, (_x_, y) => {
-                    return "_" + y.toLowerCase();
-                }).replace(/^_/, "");
+            .replace(/\.?([A-Z]+)/g, (_x_, y) => {
+                return "_" + y.toLowerCase();
+            }).replace(/^_/, "");
         }
     };
 
@@ -188,6 +217,8 @@ export const htmlCountDown = hybridJsUtils.htmlCountDown;
 export const loadJQuery = hybridJsUtils.loadJQuery;
 export const logWithStyle = hybridJsUtils.logWithStyle;
 export const addLeadingZeroes = hybridJsUtils.addLeadingZeroes;
+export const eachFrom = hybridJsUtils.eachFrom;
+export const forEachFrom = hybridJsUtils.forEachFrom;
 export const isNumeric = hybridJsUtils.isNumeric;
 export const isObject = hybridJsUtils.isObject;
 export const objectKeysToCamelCase = hybridJsUtils.objectKeysToCamelCase;
