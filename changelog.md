@@ -34,8 +34,14 @@
 * Removed useless dependency
 * Changed rollup extension (since it was pointlessly ts)
 
+## 2.0.10
+* Fixed this ref (which may be messing when using single functions)
+
 ## 3.0.0
 * Changed source to class. Major version update because of the dramatic change, but it should continue to work as it did before, so it will be most likely compatible with previous installations.
 
 ## 3.0.1
 * Improved sprintf to print everything! 🎉
+
+## 3.0.2
+* Fixed this ref (which may be messing when using single functions)

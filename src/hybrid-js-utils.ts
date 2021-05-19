@@ -15,7 +15,7 @@ export class HybridJSUtils {
      * Alias for forEachFrom, see forEachFrom
      */
     static eachFrom<T = any>(array: T[], index: number, iteratee: (item: T, index: number, source: T[]) => any): T[] {
-        return this.forEachFrom(array, index, iteratee);
+        return HybridJSUtils.forEachFrom(array, index, iteratee);
     }
 
     /**
@@ -53,7 +53,7 @@ export class HybridJSUtils {
      */
     static htmlCountDown(duration: number, updateFreq: number, targetEl: HTMLElement): Promise<number> {
         return new Promise<number>((resolve) => {
-            let counter: number = this.roundNumber(duration / 1000, 2);
+            let counter: number = HybridJSUtils.roundNumber(duration / 1000, 2);
             const counterDiff = updateFreq / 1000;
             let interval: any;
             const print = () => {
@@ -79,7 +79,7 @@ export class HybridJSUtils {
     }
 
     static loadJQuery(version: string = "1.12.0"): Promise<boolean> {
-        const isServer = !this.isClient();
+        const isServer = !HybridJSUtils.isClient();
         return new Promise<boolean>(function (resolve) {
             if (isServer) {
                 jsVersionError("HybridJsUtils.loadJQuery");
@@ -101,7 +101,7 @@ export class HybridJSUtils {
     }
 
     static logWithStyle(title: string, msg: string, style: string = ""): void {
-        if (this.isClient()) {
+        if (HybridJSUtils.isClient()) {
             console.group(title || "");
             console.log("%c" + msg, style);
             console.groupEnd();
@@ -125,7 +125,7 @@ export class HybridJSUtils {
         const result: { [key: string]: any } = {};
         Object.keys(source).forEach((key: string) => {
             // tslint:disable-next-line:max-line-length
-            result[this.toCamelCase(key)] = Object.keys(source[key]).length > 0 && !Array.isArray(source) ? this.objectKeysToCamelCase(source[key]) : source[key];
+            result[HybridJSUtils.toCamelCase(key)] = Object.keys(source[key]).length > 0 && !Array.isArray(source) ? HybridJSUtils.objectKeysToCamelCase(source[key]) : source[key];
         });
 
         return result;
@@ -138,7 +138,7 @@ export class HybridJSUtils {
         const n = Math.floor(Math.random() * (max - min + 1)) + min;
         let r = n.toString(16);
         while (r.length < length) {
-            r = r + this.randomHex(length - maxlen);
+            r = r + HybridJSUtils.randomHex(length - maxlen);
         }
         return r;
     }
@@ -146,7 +146,7 @@ export class HybridJSUtils {
     static randomInt(min: number, max: number, excludeMin: boolean | string = !1, excludeMax: boolean | string = !1): number {
         if (isNaN(min) || isNaN(max)) {
             console.warn("Invalid args for JsUtils.randomInt. Returning random between 0 and 100");
-            return this.randomInt(0, 100);
+            return HybridJSUtils.randomInt(0, 100);
         }
         // tslint:disable-next-line:triple-equals
         excludeMax = !isNaN(+(excludeMax == "true") || +excludeMax); // forces to have true or "true"
@@ -161,7 +161,7 @@ export class HybridJSUtils {
         let i = -1;
         const result = [];
         while (++i < length) {
-            result.push(this.randomInt(0, 5, !0, !0));
+            result.push(HybridJSUtils.randomInt(0, 5, !0, !0));
         }
         return result.join("");
     }
@@ -190,7 +190,7 @@ export class HybridJSUtils {
             return str;
         }
 
-        return !argv.length ? str : this.sprintf(str = str.replace("%s", JSON.stringify(argv.shift())), ...argv);
+        return !argv.length ? str : HybridJSUtils.sprintf(str = str.replace("%s", JSON.stringify(argv.shift())), ...argv);
     }
 
     static toCamelCase(s: string): string {
