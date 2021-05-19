@@ -1,4 +1,4 @@
-# Hybrid Js Utils 2
+# Hybrid Js Utils 3
 
 ## 2.0.2
 * Added tests with Jest
@@ -34,3 +34,5 @@
 * Removed useless dependency
 * Changed rollup extension (since it was pointlessly ts)
 
+## 3.0.0
+* Changed source to class. Major version update because of the dramatic change, but it should continue to work as it did before, so it will be most likely compatible with previous installations.
