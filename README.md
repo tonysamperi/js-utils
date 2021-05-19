@@ -1,7 +1,7 @@
 # Hybrid JS Utils
 
  [![NPM version][npm-version-image]][npm-url]
- [![Build Status](https://travis-ci.org/tonysamperi/js-utils.svg?branch=master)](https://travis-ci.org/tonysamperi/js-utils)
+ [![Build Status][travis-image]][travis-url]
  [![Coverage Status][test-coverage-image]][test-coverage-url] ![PRs welcome][contributing-image]
 
 A simple set of commonly used Javascript functions
@@ -13,10 +13,6 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 Actually none.
-
-```
-
-```
 
 ### Installing
 
@@ -46,7 +42,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Tony Samperi** - *Initial work* - [TonySamperi](https://github.com/TonySamperi)
+* *Initial work and devs* - [TonySamperi](https://github.com/TonySamperi)
 
 ## License
 
@@ -54,11 +50,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 [npm-url]: https://npmjs.org/package/hybrid-js-utils
 [npm-version-image]: https://badge.fury.io/js/hybrid-js-utils.svg
-
 [doc-url]: https://tonysamperi.github.io/js-utils/
 [doc-coverage-image]: https://moment.github.io/luxon/docs/badge.svg
-
-[test-coverage-url]: https://codecov.io/gh/tonysamperi/hybrid-js-utils
-[test-coverage-image]: https://codecov.io/gh/tonysamperi/hybrid-js-utils/branch/master/graph/badge.svg
-
+[test-coverage-url]: https://codecov.io/gh/tonysamperi/js-utils
+[test-coverage-image]: https://codecov.io/gh/tonysamperi/js-utils/branch/master/graph/badge.svg
 [contributing-image]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg
+[travis-image]: https://travis-ci.org/tonysamperi/js-utils.svg?branch=master
+[travis-url]: https://travis-ci.org/tonysamperi/js-utils.svg?branch=master
