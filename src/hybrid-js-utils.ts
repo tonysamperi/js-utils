@@ -85,7 +85,7 @@ export class HybridJSUtils {
         return typeof window !== "undefined" && !!window.document;
     }
 
-    static loadJQuery(version: string = "1.12.0"): Promise<boolean> {
+    static loadJQuery(libVersion: string = "1.12.0"): Promise<boolean> {
         const isServer = !HybridJSUtils.isClient();
         return new Promise<boolean>(function (resolve) {
             if (isServer) {
@@ -94,7 +94,7 @@ export class HybridJSUtils {
                 return;
             }
             const jq = document.createElement("script");
-            jq.src = `https://ajax.googleapis.com/ajax/libs/jquery/${version}/jquery.min.js`;
+            jq.src = `https://ajax.googleapis.com/ajax/libs/jquery/${libVersion}/jquery.min.js`;
             jq.addEventListener("load", function () {
                 console.info("jQuery loaded.");
                 resolve(!0);

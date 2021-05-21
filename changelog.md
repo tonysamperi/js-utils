@@ -46,3 +46,6 @@
 ## 3.0.3
 * Reverted sprintf. If you want to print an object, convert it first!
 * Adding version constant inside of js-utils
+
+## 3.0.4
+* Fix shadowed name
