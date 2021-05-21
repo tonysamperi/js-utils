@@ -42,3 +42,7 @@
 
 ## 3.0.2
 * Fixed this ref (which may be messing when using single functions)
+
+## 3.0.3
+* Reverted sprintf. If you want to print an object, convert it first!
+* Adding version constant inside of js-utils

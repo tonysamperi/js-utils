@@ -5,7 +5,14 @@ function jsVersionError(methodName: string) {
     console.error(`Can't execute "${methodName}, since you're not using client JS!`);
 }
 
+const version: string = "3.0.3";
+
 export class HybridJSUtils {
+
+    get version(): string {
+        return version;
+    }
+
     static addLeadingZeroes(numeric: number | string): string {
         numeric = "" + numeric; // Convert to string;
         return ("00" + numeric).slice(-2);
@@ -185,12 +192,12 @@ export class HybridJSUtils {
         return Math.round(+value * factor) / factor;
     }
 
-    static sprintf(str: string, ...argv: any[]): string {
+    static sprintf(str: string, ...argv: (string | number)[]): string {
         if (typeof str !== typeof "") {
             return str;
         }
 
-        return !argv.length ? str : HybridJSUtils.sprintf(str = str.replace("%s", JSON.stringify(argv.shift())), ...argv);
+        return !argv.length ? str : HybridJSUtils.sprintf(str = str.replace("%s", `${argv.shift()}`), ...argv);
     }
 
     static toCamelCase(s: string): string {

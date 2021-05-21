@@ -1,6 +1,6 @@
 {
   "name": "hybrid-js-utils",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "A set of commonly used JS functions",
   "repository": {
     "type": "git",
@@ -26,8 +26,7 @@
   "files": [
     "dist",
     "README.md",
-    "package.json",
-    "tsbl.js"
+    "package.json"
   ],
   "engines": {
     "node": ">=8.0.0"
