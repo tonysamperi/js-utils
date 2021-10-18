@@ -16,7 +16,6 @@ const dom = new JSDOM(html, {runScripts: "dangerously", resources: "usable"});
  * isClient
  * //
  * htmlCountDown
- * loadJQuery
  * logWithStyle
  * //
  * addLeadingZeroes
@@ -59,32 +58,6 @@ describe("HybridJSUtils test", () => {
                 expect(counter).toBe(0);
                 done();
             });
-    });
-
-    it("should fail to loadJQuery", (done) => {
-        HybridJSUtils.loadJQuery().then((r) => {
-            expect(r).toBeFalsy();
-            done();
-        });
-    });
-
-    it("should manage to loadJQuery", (done) => {
-        (global as any).window = dom.window;
-        (global as any).document = dom.window.document;
-        HybridJSUtils.loadJQuery().then((r) => {
-            expect(r).toBeTruthy();
-            done();
-        });
-    });
-
-    it("should fail to loadJQuery for wrong script", (done) => {
-        (global as any).window = dom.window;
-        (global as any).document = dom.window.document;
-        console.error = jest.fn(); // Hide error
-        HybridJSUtils.loadJQuery("AAA").then((r) => {
-            expect(r).toBeFalsy();
-            done();
-        });
     });
 
     it("should NOT log with style", () => {

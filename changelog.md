@@ -59,3 +59,6 @@
 
 ## 3.0.7
 * Typescript fixes
+
+## 4.0.0
+* Breaking change: removed loadJquery, because it's pointless
