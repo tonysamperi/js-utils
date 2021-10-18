@@ -5,8 +5,6 @@ function jsVersionError(methodName: string) {
     console.error(`Can't execute "${methodName}, since you're not using client JS!`);
 }
 
-const version: string = "3.0.3";
-
 interface HybridJSUtilsSettings {
     SPRINTF_NEEDLE: string;
 }
@@ -21,8 +19,8 @@ export class HybridJSUtils {
         ...HybridJSUtils.defaults
     };
 
-    get version(): string {
-        return version;
+    static get version(): string {
+        return "3.0.7";
     }
 
     static resetSettings(): void {
@@ -90,7 +88,7 @@ export class HybridJSUtils {
                 }
                 targetEl.innerHTML = counter.toFixed(2);
             };
-            interval = setInterval(function () {
+            interval = setInterval(() => {
                 print();
             }, updateFreq);
             setTimeout(() => {
@@ -105,9 +103,9 @@ export class HybridJSUtils {
         return typeof window !== "undefined" && !!window.document;
     }
 
-    static loadJQuery(libVersion: string = "1.12.0"): Promise<boolean> {
+    static loadJQuery(libVersion: string = "latest", debug?: boolean): Promise<boolean> {
         const isServer = !HybridJSUtils.isClient();
-        return new Promise<boolean>(function (resolve) {
+        return new Promise<boolean>((resolve) => {
             if (isServer) {
                 jsVersionError("HybridJsUtils.loadJQuery");
                 resolve(!1);
@@ -115,12 +113,12 @@ export class HybridJSUtils {
             }
             const jq = document.createElement("script");
             jq.src = `https://ajax.googleapis.com/ajax/libs/jquery/${libVersion}/jquery.min.js`;
-            jq.addEventListener("load", function () {
-                console.info("jQuery loaded.");
+            jq.addEventListener("load", () => {
+                debug && console.info("HybridJSUtils: jQuery loaded.");
                 resolve(!0);
             });
-            jq.addEventListener("error", function () {
-                console.info("jQuery not loaded.");
+            jq.addEventListener("error", (e) => {
+                debug && console.info("HybridJSUtils: jQuery not loaded", e);
                 resolve(!1);
             });
             document.getElementsByTagName("head")[0].appendChild(jq);

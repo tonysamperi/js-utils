@@ -1,5 +1,5 @@
 import {JSDOM} from "jsdom";
-import * as HybridJSUtils from "../src/hybrid-js-utils";
+import {HybridJSUtils} from "../src/hybrid-js-utils";
 
 const html = `<!DOCTYPE html>
 <html lang="en">
@@ -36,6 +36,16 @@ describe("HybridJSUtils test", () => {
         // console.info("CLEANING UP...");
         (global as any).window = void 0;
         (global as any).document = void 0;
+    });
+
+    it("should have the correct version", () => {
+        expect(HybridJSUtils.version).toBe(process.env.npm_package_version);
+    });
+
+    it("should have the correct defaults", () => {
+        expect(HybridJSUtils.defaults).toEqual({
+            SPRINTF_NEEDLE: "%s"
+        });
     });
 
     it("should return false (isClient)", () => {

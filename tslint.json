@@ -9,7 +9,6 @@
     ]
   },
   "rules": {
-    "no-use-before-declare": true,
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
@@ -119,7 +118,6 @@
         "variable-declaration": "nospace"
       }
     ],
-    "typeof-compare": true,
     "unified-signatures": true,
     "variable-name": false,
     "whitespace": [
@@ -138,7 +136,6 @@
         "esSpecCompliant": false
       }
     ],
-    "no-output-on-prefix": true,
     "use-host-property-decorator": false,
     "no-unused-css": false,
     "no-var-before-return": true

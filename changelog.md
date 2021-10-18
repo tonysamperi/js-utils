@@ -56,3 +56,6 @@
 
 ## 3.0.6
 * Fixed sprintfx
+
+## 3.0.7
+* Typescript fixes
