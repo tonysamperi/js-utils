@@ -27,8 +27,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: npm ci
-      - run: npm run test:prod && npm run build
-      - run: npm run report-coverage
-      - run: npm run codecov
+      - run: npm install -g yarn
+      - run: yarn install
+      - run: yarn run test:prod && npm run build
+      - run: yarn run report-coverage
+      - run: bash <(curl -s https://codecov.io/bash) -Z -t d0c9306f-82e3-462d-b99a-21abdb3b7521
 
