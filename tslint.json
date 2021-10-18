@@ -130,6 +130,14 @@
       "check-separator",
       "check-type"
     ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never",
+        "esSpecCompliant": false
+      }
+    ],
     "no-output-on-prefix": true,
     "use-host-property-decorator": false,
     "no-unused-css": false,

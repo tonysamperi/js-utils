@@ -1,5 +1,5 @@
-import * as HybridJSUtils from "../src/hybrid-js-utils";
 import {JSDOM} from "jsdom";
+import * as HybridJSUtils from "../src/hybrid-js-utils";
 
 const html = `<!DOCTYPE html>
 <html lang="en">
@@ -106,17 +106,17 @@ describe("HybridJSUtils test", () => {
     /**
      * ARRAYS
      */
-    interface FooBar {
+    interface IFooBar {
         foo: any;
         bar: any;
     }
 
-    const testArray: FooBar[] = [
+    const testArray: IFooBar[] = [
         {foo: 1, bar: "a"},
         {foo: 2, bar: "b"}
     ];
-    let tmp: FooBar[];
-    let res: FooBar[];
+    let tmp: IFooBar[];
+    let res: IFooBar[];
     it("should loop over the full array (alias)", () => {
         tmp = [];
         res = HybridJSUtils.eachFrom(testArray, 0, (item) => {
@@ -293,7 +293,6 @@ describe("HybridJSUtils test", () => {
         expect(result).toBe(getStr());
     });
 
-
     /**
      * SPRINTFX
      */
@@ -336,8 +335,8 @@ describe("HybridJSUtils test", () => {
 
     it("should convert object keys", () => {
         const source = {
-            "foo_key": 1,
-            "bar_key": 2
+            foo_key: 1,
+            bar_key: 2
         };
         const result = HybridJSUtils.objectKeysToCamelCase(source);
         expect(Object.keys(result).length).toBe(Object.keys(source).length);
