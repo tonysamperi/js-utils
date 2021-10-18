@@ -20,7 +20,7 @@ export class HybridJSUtils {
     };
 
     static get version(): string {
-        return "3.0.7";
+        return "4.0.0";
     }
 
     static resetSettings(): void {
