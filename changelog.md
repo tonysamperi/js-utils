@@ -49,3 +49,10 @@
 
 ## 3.0.4
 * Fix shadowed name
+
+## 3.0.5
+* Added settings to customise sprintf
+* Added sprintfx where you also pass the needle
+
+## 3.0.6
+* Fixed sprintfx

@@ -45,10 +45,10 @@ describe("HybridJSUtils test", () => {
     it("should return zero (htmlCountDown)", (done) => {
         const $target = dom.window.document.body;
         HybridJSUtils.htmlCountDown(3500, 500, $target)
-        .then((counter) => {
-            expect(counter).toBe(0);
-            done();
-        });
+            .then((counter) => {
+                expect(counter).toBe(0);
+                done();
+            });
     });
 
     it("should fail to loadJQuery", (done) => {
@@ -278,19 +278,41 @@ describe("HybridJSUtils test", () => {
      */
 
     it("should \"sprintf\" a string", () => {
-        const string = "Hi I'm %s";
-        const name = "John";
-        const result = HybridJSUtils.sprintf(string, name);
+        const string = "Hi, %s I'm %s";
+        const names = ["Harold", "John"];
+        const result = HybridJSUtils.sprintf(string, names[0], names[1]);
         expect(result).toBeDefined();
-        expect(result).toBe(string.replace("%s", name));
+        expect(result).toBe(string.replace("%s", names[0]).replace("%s", names[1]));
     });
 
     it("shouldn't explode when \"sprintf\" receives anything but a string", () => {
         const getStr = (): string => {
             return (global as any).foo as string;
         };
-        const name = "John";
-        const result = HybridJSUtils.sprintf(getStr(), name);
+        const result = HybridJSUtils.sprintf(getStr(), "John");
+        expect(result).toBe(getStr());
+    });
+
+
+    /**
+     * SPRINTFX
+     */
+
+    it("should \"sprintfx\" a string", () => {
+        const needle = "@param@";
+        const string = `Hi, ${needle} I'm ${needle}`;
+        const names = ["Harold", "John"];
+        const result = HybridJSUtils.sprintfx(string, needle, names[0], names[1]);
+        expect(result).toBeDefined();
+        expect(result).toBe(string.replace(needle, names[0]).replace(needle, names[1]));
+    });
+
+    it("shouldn't explode when \"sprintfx\" receives anything but a string", () => {
+        const needle = "@param@";
+        const getStr = (): string => {
+            return (global as any).foo as string;
+        };
+        const result = HybridJSUtils.sprintfx(getStr(), needle, "John");
         expect(result).toBe(getStr());
     });
 

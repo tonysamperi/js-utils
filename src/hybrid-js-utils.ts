@@ -7,11 +7,31 @@ function jsVersionError(methodName: string) {
 
 const version: string = "3.0.3";
 
+interface HybridJSUtilsSettings {
+    SPRINTF_NEEDLE: string;
+}
+
 export class HybridJSUtils {
+
+    static defaults: HybridJSUtilsSettings = {
+        SPRINTF_NEEDLE: "%s"
+    };
+
+    static settings: HybridJSUtilsSettings = {
+        ...HybridJSUtils.defaults
+    };
 
     get version(): string {
         return version;
     }
+
+    static resetSettings(): void {
+        HybridJSUtils.settings = {
+            ...HybridJSUtils.defaults
+        };
+    }
+
+    //
 
     static addLeadingZeroes(numeric: number | string): string {
         numeric = "" + numeric; // Convert to string;
@@ -197,26 +217,34 @@ export class HybridJSUtils {
             return str;
         }
 
-        return !argv.length ? str : HybridJSUtils.sprintf(str = str.replace("%s", `${argv.shift()}`), ...argv);
+        return !argv.length ? str : HybridJSUtils.sprintf(str.replace(HybridJSUtils.settings.SPRINTF_NEEDLE, `${argv.shift()}`), ...argv);
+    }
+
+    static sprintfx(str: string, needle: string, ...argv: (string | number)[]): string {
+        if (typeof str !== typeof "") {
+            return str;
+        }
+
+        return !argv.length ? str : HybridJSUtils.sprintfx(str.replace(needle, `${argv.shift()}`), needle, ...argv);
     }
 
     static toCamelCase(s: string): string {
         return s
-        .replace(/_/g, " ")
-        .replace(/\s(.)/g, ($1: string) => {
-            return $1.toUpperCase();
-        })
-        .replace(/\s/g, "")
-        .replace(/^(.)/, ($1: string) => {
-            return $1.toLowerCase();
-        });
+            .replace(/_/g, " ")
+            .replace(/\s(.)/g, ($1: string) => {
+                return $1.toUpperCase();
+            })
+            .replace(/\s/g, "")
+            .replace(/^(.)/, ($1: string) => {
+                return $1.toLowerCase();
+            });
     }
 
     static toSnakeCase(s: string): string {
         return s
-        .replace(/\.?([A-Z]+)/g, (_x_, y) => {
-            return "_" + y.toLowerCase();
-        }).replace(/^_/, "");
+            .replace(/\.?([A-Z]+)/g, (_x_, y) => {
+                return "_" + y.toLowerCase();
+            }).replace(/^_/, "");
     }
 }
 
@@ -238,5 +266,6 @@ export const removeMultipleSpaces = HybridJSUtils.removeMultipleSpaces;
 export const removeTrailingSlash = HybridJSUtils.removeTrailingSlash;
 export const roundNumber = HybridJSUtils.roundNumber;
 export const sprintf = HybridJSUtils.sprintf;
+export const sprintfx = HybridJSUtils.sprintfx;
 export const toCamelCase = HybridJSUtils.toCamelCase;
 export const toSnakeCase = HybridJSUtils.toSnakeCase;
