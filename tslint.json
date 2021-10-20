@@ -1,7 +1,6 @@
 {
   "extends": [
-    "tslint-config-standard",
-    "tslint-config-prettier",
+    "tslint:recommended",
     "tslint-consistent-codestyle"
   ],
   "linterOptions": {
@@ -10,7 +9,6 @@
     ]
   },
   "rules": {
-    "no-use-before-declare": true,
     "arrow-return-shorthand": true,
     "callable-types": true,
     "class-name": true,
@@ -120,7 +118,6 @@
         "variable-declaration": "nospace"
       }
     ],
-    "typeof-compare": true,
     "unified-signatures": true,
     "variable-name": false,
     "whitespace": [
@@ -131,7 +128,14 @@
       "check-separator",
       "check-type"
     ],
-    "no-output-on-prefix": true,
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never",
+        "esSpecCompliant": false
+      }
+    ],
     "use-host-property-decorator": false,
     "no-unused-css": false,
     "no-var-before-return": true

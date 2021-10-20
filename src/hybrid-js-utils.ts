@@ -1,11 +1,6 @@
 /**
  * @private
  */
-function jsVersionError(methodName: string) {
-    console.error(`Can't execute "${methodName}, since you're not using client JS!`);
-}
-
-const version: string = "3.0.3";
 
 interface HybridJSUtilsSettings {
     SPRINTF_NEEDLE: string;
@@ -13,23 +8,27 @@ interface HybridJSUtilsSettings {
 
 export class HybridJSUtils {
 
+    static set settings(newValue: HybridJSUtilsSettings) {
+        this._settings = {
+            ...newValue
+        };
+    }
+
+    static get settings(): HybridJSUtilsSettings {
+        return this._settings;
+    }
+
     static defaults: HybridJSUtilsSettings = {
         SPRINTF_NEEDLE: "%s"
     };
 
-    static settings: HybridJSUtilsSettings = {
+    static get version(): string {
+        return "4.0.0";
+    }
+
+    private static _settings: HybridJSUtilsSettings = {
         ...HybridJSUtils.defaults
     };
-
-    get version(): string {
-        return version;
-    }
-
-    static resetSettings(): void {
-        HybridJSUtils.settings = {
-            ...HybridJSUtils.defaults
-        };
-    }
 
     //
 
@@ -61,7 +60,6 @@ export class HybridJSUtils {
         // tslint:disable-next-line:naming-convention
         let _index = typeof index !== typeof 0 || index < 0 ? -1 : index - 1;
         const length = array == null ? 0 : array.length;
-
         while (++_index < length) {
             if (iteratee(array[_index], _index, array) === false) {
                 break;
@@ -90,7 +88,7 @@ export class HybridJSUtils {
                 }
                 targetEl.innerHTML = counter.toFixed(2);
             };
-            interval = setInterval(function () {
+            interval = setInterval(() => {
                 print();
             }, updateFreq);
             setTimeout(() => {
@@ -103,28 +101,6 @@ export class HybridJSUtils {
 
     static isClient(): boolean {
         return typeof window !== "undefined" && !!window.document;
-    }
-
-    static loadJQuery(libVersion: string = "1.12.0"): Promise<boolean> {
-        const isServer = !HybridJSUtils.isClient();
-        return new Promise<boolean>(function (resolve) {
-            if (isServer) {
-                jsVersionError("HybridJsUtils.loadJQuery");
-                resolve(!1);
-                return;
-            }
-            const jq = document.createElement("script");
-            jq.src = `https://ajax.googleapis.com/ajax/libs/jquery/${libVersion}/jquery.min.js`;
-            jq.addEventListener("load", function () {
-                console.info("jQuery loaded.");
-                resolve(!0);
-            });
-            jq.addEventListener("error", function () {
-                console.info("jQuery not loaded.");
-                resolve(!1);
-            });
-            document.getElementsByTagName("head")[0].appendChild(jq);
-        });
     }
 
     static logWithStyle(title: string, msg: string, style: string = ""): void {
@@ -201,6 +177,12 @@ export class HybridJSUtils {
         return source.replace(/\/$/, "");
     }
 
+    static resetSettings(): void {
+        HybridJSUtils.settings = {
+            ...HybridJSUtils.defaults
+        };
+    }
+
     static roundNumber(value: number | string, decimalDigits: number = 2): number {
         if (isNaN(+value)) {
             throw new Error("HybridJsUtils.roundNumber: invalid value supplied");
@@ -251,7 +233,6 @@ export class HybridJSUtils {
 // TO IMPORT SINGLE FUNCTIONS
 export const isClient = HybridJSUtils.isClient;
 export const htmlCountDown = HybridJSUtils.htmlCountDown;
-export const loadJQuery = HybridJSUtils.loadJQuery;
 export const logWithStyle = HybridJSUtils.logWithStyle;
 export const addLeadingZeroes = HybridJSUtils.addLeadingZeroes;
 export const eachFrom = HybridJSUtils.eachFrom;

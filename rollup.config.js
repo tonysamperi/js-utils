@@ -6,8 +6,6 @@ import json from "rollup-plugin-json";
 
 const pkg = require("./package.json");
 
-const libraryName = "hybrid-js-utils";
-
 function toCamelCase(s) {
   return s
   .replace(/_/g, " ")
@@ -20,10 +18,11 @@ function toCamelCase(s) {
   });
 }
 
+
 export default {
-  input: `src/${libraryName}.ts`,
+  input: `src/${pkg.name}.ts`,
   output: [
-    { file: pkg.main, name: toCamelCase(libraryName), format: "umd", sourcemap: true },
+    { file: pkg.main, name: toCamelCase(pkg.name), format: "umd", sourcemap: true },
     { file: pkg.module, format: "es", sourcemap: true }
   ],
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
@@ -35,7 +34,7 @@ export default {
     // Allow json resolution
     json(),
     // Compile TypeScript files
-    typescript({ useTsconfigDeclarationDir: true }),
+    typescript({ useTsconfigDeclarationDir: !0 }),
     // Allow bundling cjs modules (unlike webpack, rollup doesn't understand cjs)
     commonjs(),
     // Allow node_modules resolution, so you can use 'external' to control
