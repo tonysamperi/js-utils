@@ -1,9 +1,6 @@
 /**
  * @private
  */
-function jsVersionError(methodName: string) {
-    console.error(`Can't execute "${methodName}, since you're not using client JS!`);
-}
 
 interface HybridJSUtilsSettings {
     SPRINTF_NEEDLE: string;
@@ -11,23 +8,27 @@ interface HybridJSUtilsSettings {
 
 export class HybridJSUtils {
 
+    static set settings(newValue: HybridJSUtilsSettings) {
+        this._settings = {
+            ...newValue
+        };
+    }
+
+    static get settings(): HybridJSUtilsSettings {
+        return this._settings;
+    }
+
     static defaults: HybridJSUtilsSettings = {
         SPRINTF_NEEDLE: "%s"
-    };
-
-    static settings: HybridJSUtilsSettings = {
-        ...HybridJSUtils.defaults
     };
 
     static get version(): string {
         return "4.0.0";
     }
 
-    static resetSettings(): void {
-        HybridJSUtils.settings = {
-            ...HybridJSUtils.defaults
-        };
-    }
+    private static _settings: HybridJSUtilsSettings = {
+        ...HybridJSUtils.defaults
+    };
 
     //
 
@@ -59,7 +60,6 @@ export class HybridJSUtils {
         // tslint:disable-next-line:naming-convention
         let _index = typeof index !== typeof 0 || index < 0 ? -1 : index - 1;
         const length = array == null ? 0 : array.length;
-
         while (++_index < length) {
             if (iteratee(array[_index], _index, array) === false) {
                 break;
@@ -175,6 +175,12 @@ export class HybridJSUtils {
 
     static removeTrailingSlash(source: string): string {
         return source.replace(/\/$/, "");
+    }
+
+    static resetSettings(): void {
+        HybridJSUtils.settings = {
+            ...HybridJSUtils.defaults
+        };
     }
 
     static roundNumber(value: number | string, decimalDigits: number = 2): number {

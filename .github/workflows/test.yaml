@@ -29,6 +29,6 @@ jobs:
           cache: 'npm'
       - run: npm install -g yarn
       - run: yarn install
-      - run: yarn run test:prod && npm run build
+      - run: yarn run test:prod && yarn run build
       - run: bash <(curl -s https://codecov.io/bash) -Z -t d0c9306f-82e3-462d-b99a-21abdb3b7521
 

@@ -38,7 +38,7 @@
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
-    "test:prod": "yarn run lint && yarn run test -- --no-cache"
+    "test:prod": "yarn run lint && yarn run test --no-cache"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",

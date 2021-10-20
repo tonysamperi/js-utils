@@ -1,5 +1,6 @@
 import {JSDOM} from "jsdom";
 import {HybridJSUtils} from "../src/hybrid-js-utils";
+import * as pkg from "../package.json";
 
 const html = `<!DOCTYPE html>
 <html lang="en">
@@ -13,11 +14,11 @@ const html = `<!DOCTYPE html>
 // const dom = new JSDOM(html);
 const dom = new JSDOM(html, {runScripts: "dangerously", resources: "usable"});
 /**
+ * version
+ * resetSettings
  * isClient
- * //
  * htmlCountDown
  * logWithStyle
- * //
  * addLeadingZeroes
  * forEachFrom
  * isNumeric
@@ -38,11 +39,22 @@ describe("HybridJSUtils test", () => {
     });
 
     it("should have the correct version", () => {
-        expect(HybridJSUtils.version).toBe(process.env.npm_package_version);
+        expect(HybridJSUtils.version).toBe(pkg.version);
     });
 
     it("should have the correct defaults", () => {
         expect(HybridJSUtils.defaults).toEqual({
+            SPRINTF_NEEDLE: "%s"
+        });
+    });
+
+    it("should reset settings", () => {
+        HybridJSUtils.settings = {
+            SPRINTF_NEEDLE: "@"
+        };
+        HybridJSUtils.resetSettings();
+
+        expect(HybridJSUtils.settings).toEqual({
             SPRINTF_NEEDLE: "%s"
         });
     });
@@ -96,13 +108,35 @@ describe("HybridJSUtils test", () => {
 
     const testArray: IFooBar[] = [
         {foo: 1, bar: "a"},
-        {foo: 2, bar: "b"}
+        {foo: 2, bar: "b"},
+        {foo: 3, bar: "c"},
+        {foo: 4, bar: "d"}
     ];
-    let tmp: IFooBar[];
-    let res: IFooBar[];
+
     it("should loop over the full array (alias)", () => {
-        tmp = [];
-        res = HybridJSUtils.eachFrom(testArray, 0, (item) => {
+        const tmp: IFooBar[] = [];
+        const res = HybridJSUtils.eachFrom(testArray, 0, (item) => {
+            tmp.push(item);
+        });
+        expect(tmp.length).toBe(testArray.length);
+        expect(tmp).toEqual(testArray);
+        expect(res).toEqual(testArray);
+    });
+
+    it("should log error for wrong argument passed", () => {
+        const tmp: string[] = [];
+        console.error = jest.fn();
+        const mockFn = console.error as jest.Mock;
+        // @ts-expect-error
+        HybridJSUtils.forEachFrom("testArray", 0, (item: string) => {
+            tmp.push(item);
+        });
+        expect(mockFn.mock.calls[0][0]).toContain("eachFrom only accept arrays as source, found instead");
+    });
+
+    it("should loop over the full array", () => {
+        const tmp: IFooBar[] = [];
+        const res = HybridJSUtils.forEachFrom(testArray, 0, (item) => {
             tmp.push(item);
         });
         expect(tmp.length).toBe(testArray.length);
@@ -111,8 +145,8 @@ describe("HybridJSUtils test", () => {
     });
 
     it("should loop over the full array", () => {
-        tmp = [];
-        res = HybridJSUtils.forEachFrom(testArray, 0, (item) => {
+        const tmp: IFooBar[] = [];
+        const res = HybridJSUtils.forEachFrom(testArray, 0, (item) => {
             tmp.push(item);
         });
         expect(tmp.length).toBe(testArray.length);
@@ -120,9 +154,21 @@ describe("HybridJSUtils test", () => {
         expect(res).toEqual(testArray);
     });
 
+    it("should break early", () => {
+        const tmp: IFooBar[] = [];
+        const breakAt = testArray.length - 2;
+        HybridJSUtils.forEachFrom(testArray, 0, (item, index) => {
+            tmp.push(item);
+
+            return index < breakAt;
+        });
+        expect(tmp.length).toBe(breakAt + 1);
+        expect(tmp).toEqual(testArray.slice(0, breakAt + 1));
+    });
+
     it("should loop over the array from desired index (alias)", () => {
-        tmp = [];
-        res = HybridJSUtils.eachFrom(testArray, 1, (item) => {
+        const tmp: IFooBar[] = [];
+        const res = HybridJSUtils.eachFrom(testArray, 1, (item) => {
             tmp.push(item);
         });
         expect(tmp.length).toBe(testArray.slice(1).length);
@@ -131,8 +177,8 @@ describe("HybridJSUtils test", () => {
     });
 
     it("should loop over the array from desired index", () => {
-        tmp = [];
-        res = HybridJSUtils.forEachFrom(testArray, 1, (item) => {
+        const tmp: IFooBar[] = [];
+        const res = HybridJSUtils.forEachFrom(testArray, 1, (item) => {
             tmp.push(item);
         });
         expect(tmp.length).toBe(testArray.slice(1).length);
@@ -141,15 +187,16 @@ describe("HybridJSUtils test", () => {
     });
 
     it("should mutate the items", () => {
-        res = HybridJSUtils.forEachFrom(testArray, 0, (item) => {
+        const srcArray: IFooBar[] = JSON.parse(JSON.stringify(testArray));
+        const res = HybridJSUtils.forEachFrom(srcArray, 0, (item) => {
             item.foo++;
             item.bar += "z";
         });
-        expect(testArray).toEqual([
-            {foo: 2, bar: "az"},
-            {foo: 3, bar: "bz"}
-        ]);
-        expect(res).toEqual(testArray);
+        srcArray.forEach((item, index) => {
+            expect(item.foo).toEqual(testArray[index].foo + 1);
+            expect(item.bar).toEqual(testArray[index].bar + "z");
+        });
+        expect(res).toEqual(srcArray);
     });
 
     /**
