@@ -350,17 +350,29 @@ describe("HybridJSUtils test", () => {
      */
 
     it("should 'camelCase' a string", () => {
-        const string = "Hi I'm John";
-        const result = HybridJSUtils.toCamelCase(string);
-        expect(result).toBeDefined();
-        expect(result).toBe("hiI'mJohn");
+        const checks = [
+            {src: "Hi I'm John", expected: "hiI'mJohn"},
+            {src: "DOWNLOAD_GIFTCARDS", expected: "downloadGiftcards"}
+        ];
+
+        checks.forEach(({src, expected}) => {
+            const result = HybridJSUtils.toCamelCase(src);
+            expect(result).toBeDefined();
+            expect(result).toBe(expected);
+        });
     });
 
-    it("should 'camelCase' a string", () => {
-        const string = "Hi I'm John";
-        const result = HybridJSUtils.toSnakeCase(string);
-        expect(result).toBeDefined();
-        expect(result).toBe("hi _i'm _john");
+    it("should 'snakeCase' a string", () => {
+        const checks = [
+            {src: "Hi I'm John", expected: "hi_i'm_john"},
+            {src: "DOWNLOAD_GIFTCARDS", expected: "download_giftcards"}
+        ];
+
+        checks.forEach(({src, expected}) => {
+            const result = HybridJSUtils.toSnakeCase(src);
+            expect(result).toBeDefined();
+            expect(result).toBe(expected);
+        });
     });
 
     it("should convert object keys", () => {

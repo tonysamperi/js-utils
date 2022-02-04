@@ -36,6 +36,12 @@ You can check some functionalities by opening the ./test/index.html in your brow
 * Step 4. Run `npm run test`
 * Step 5. If test *PASSES* you can make a pull request, otherwise, go back to step 3 and repeat.
 
+## Special thanks
+
+Jetbrains is now supporting this library with an open-source licence, which will allow a better code! 🎉
+
+![jetbrains-logo](https://user-images.githubusercontent.com/5957244/150580991-863d6fba-1090-4924-b26c-be19c6310f24.svg)
+
 ## Versioning
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 

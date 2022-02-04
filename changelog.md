@@ -60,5 +60,11 @@
 ## 3.0.7
 * Typescript fixes
 
+## 3.0.8
+* Improved toCamelCase and toSnakeCase to better handle input
+
 ## 4.0.0
 * Breaking change: removed loadJquery, because it's pointless
+
+## 4.0.1
+* Improved toCamelCase and toSnakeCase to better handle input

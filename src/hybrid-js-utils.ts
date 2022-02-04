@@ -212,6 +212,7 @@ export class HybridJSUtils {
 
     static toCamelCase(s: string): string {
         return s
+            .toLowerCase()
             .replace(/_/g, " ")
             .replace(/\s(.)/g, ($1: string) => {
                 return $1.toUpperCase();
@@ -224,9 +225,15 @@ export class HybridJSUtils {
 
     static toSnakeCase(s: string): string {
         return s
-            .replace(/\.?([A-Z]+)/g, (_x_, y) => {
-                return "_" + y.toLowerCase();
-            }).replace(/^_/, "");
+            .toLowerCase()
+            .replace(/\s+/g, "_")
+            .replace(/\s(.)/g, ($1: string) => {
+                return $1.toUpperCase();
+            })
+            .replace(/\s/g, "")
+            .replace(/^(.)/, ($1: string) => {
+                return $1.toLowerCase();
+            });
     }
 }
 
