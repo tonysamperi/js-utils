@@ -1,6 +1,6 @@
 {
   "name": "hybrid-js-utils",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A set of commonly used JS functions",
   "repository": {
     "type": "git",
@@ -29,11 +29,12 @@
     "package.json"
   ],
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=14.18.1"
   },
   "scripts": {
     "lint": "tslint --project tsconfig.json src/**/*.ts -t codeFrame",
     "lint:tests": "tslint  --project ./test/tsconfig.json -t codeFrame",
+    "publish": "npm publish",
     "build": "tsc --module commonjs && rollup -c rollup.config.js",
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
