@@ -59,3 +59,6 @@
 
 ## 3.0.7
 * Typescript fixes
+
+## 3.0.8
+* Improved toCamelCase and toSnakeCase to better handle input

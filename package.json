@@ -34,6 +34,7 @@
   "scripts": {
     "lint": "tslint --project tsconfig.json src/**/*.ts -t codeFrame",
     "lint:tests": "tslint  --project ./test/tsconfig.json -t codeFrame",
+    "publish": "npm publish --tag latest-v3",
     "build": "tsc --module commonjs && rollup -c rollup.config.js",
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest --coverage",
