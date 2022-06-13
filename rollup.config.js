@@ -2,6 +2,7 @@ import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import sourceMaps from "rollup-plugin-sourcemaps";
 import typescript from "rollup-plugin-typescript2";
+import {terser} from "rollup-plugin-terser";
 import json from "rollup-plugin-json";
 
 const pkg = require("./package.json");
@@ -10,7 +11,7 @@ const libraryName = "hybrid-js-utils";
 
 function toCamelCase(s) {
   return s
-  .replace(/_/g, " ")
+  .replace(/[-_]/g, " ")
   .replace(/\s(.)/g, ($1) => {
     return $1.toUpperCase();
   })
@@ -28,9 +29,6 @@ export default {
   ],
   // Indicate here external modules you don't wanna include in your bundle (i.e.: 'lodash')
   external: [],
-  watch: {
-    include: "src/**"
-  },
   plugins: [
     // Allow json resolution
     json(),
@@ -42,8 +40,8 @@ export default {
     // which external modules to include in the bundle
     // https://github.com/rollup/rollup-plugin-node-resolve#usage
     resolve(),
-
     // Resolve source maps to the original source
-    sourceMaps()
+    sourceMaps(),
+    terser()
   ]
 };

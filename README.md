@@ -3,6 +3,7 @@
  [![NPM version][npm-version-image]][npm-url]
  [![Build Status][travis-image]][travis-url]
  [![Coverage Status][test-coverage-image]][test-coverage-url] ![PRs welcome][contributing-image]
+ [![Size](https://img.shields.io/bundlephobia/min/hybrid-js-utils)](https://img.shields.io/bundlephobia/minzip/hybrid-js-utils)
 
 A simple set of commonly used Javascript functions
 
