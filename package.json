@@ -1,6 +1,6 @@
 {
   "name": "hybrid-js-utils",
-  "version": "4.0.1",
+  "version": "4.0.3",
   "description": "A set of commonly used JS functions",
   "repository": {
     "type": "git",
@@ -63,5 +63,6 @@
     "tslint": "^6.1.3",
     "tslint-consistent-codestyle": "^1.16.0",
     "typescript": "^3.9.10"
-  }
+  },
+  "dependencies": {}
 }

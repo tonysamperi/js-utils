@@ -352,7 +352,9 @@ describe("HybridJSUtils test", () => {
     it("should 'camelCase' a string", () => {
         const checks = [
             {src: "Hi I'm John", expected: "hiI'mJohn"},
-            {src: "DOWNLOAD_GIFTCARDS", expected: "downloadGiftcards"}
+            {src: "DOWNLOAD_GIFTCARDS", expected: "downloadGiftcards"},
+            {src: "date-locale", expected: "dateLocale"},
+            {src: "hybrid-js-utils", expected: "hybridJsUtils"}
         ];
 
         checks.forEach(({src, expected}) => {

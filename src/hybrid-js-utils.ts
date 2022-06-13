@@ -1,3 +1,4 @@
+import * as pkg from "../package.json";
 /**
  * @private
  */
@@ -23,7 +24,7 @@ export class HybridJSUtils {
     };
 
     static get version(): string {
-        return "4.0.1";
+        return pkg.version;
     }
 
     private static _settings: HybridJSUtilsSettings = {
@@ -213,7 +214,7 @@ export class HybridJSUtils {
     static toCamelCase(s: string): string {
         return s
             .toLowerCase()
-            .replace(/_/g, " ")
+            .replace(/[_-]/g, " ")
             .replace(/\s(.)/g, ($1: string) => {
                 return $1.toUpperCase();
             })
