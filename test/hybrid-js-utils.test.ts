@@ -1,5 +1,6 @@
 import {JSDOM} from "jsdom";
 import {HybridJSUtils} from "../src/hybrid-js-utils";
+import * as pkg from "../package.json";
 
 const html = `<!DOCTYPE html>
 <html lang="en">
@@ -16,7 +17,6 @@ const dom = new JSDOM(html, {runScripts: "dangerously", resources: "usable"});
  * isClient
  * //
  * htmlCountDown
- * loadJQuery
  * logWithStyle
  * //
  * addLeadingZeroes
@@ -39,7 +39,7 @@ describe("HybridJSUtils test", () => {
     });
 
     it("should have the correct version", () => {
-        expect(HybridJSUtils.version).toBe(process.env.npm_package_version);
+        expect(HybridJSUtils.version).toBe(pkg.version);
     });
 
     it("should have the correct defaults", () => {
@@ -59,32 +59,6 @@ describe("HybridJSUtils test", () => {
                 expect(counter).toBe(0);
                 done();
             });
-    });
-
-    it("should fail to loadJQuery", (done) => {
-        HybridJSUtils.loadJQuery().then((r) => {
-            expect(r).toBeFalsy();
-            done();
-        });
-    });
-
-    it("should manage to loadJQuery", (done) => {
-        (global as any).window = dom.window;
-        (global as any).document = dom.window.document;
-        HybridJSUtils.loadJQuery().then((r) => {
-            expect(r).toBeTruthy();
-            done();
-        });
-    });
-
-    it("should fail to loadJQuery for wrong script", (done) => {
-        (global as any).window = dom.window;
-        (global as any).document = dom.window.document;
-        console.error = jest.fn(); // Hide error
-        HybridJSUtils.loadJQuery("AAA").then((r) => {
-            expect(r).toBeFalsy();
-            done();
-        });
     });
 
     it("should NOT log with style", () => {
@@ -332,7 +306,9 @@ describe("HybridJSUtils test", () => {
     it("should 'camelCase' a string", () => {
         const checks = [
             {src: "Hi I'm John", expected: "hiI'mJohn"},
-            {src: "DOWNLOAD_GIFTCARDS", expected: "downloadGiftcards"}
+            {src: "DOWNLOAD_GIFTCARDS", expected: "downloadGiftcards"},
+            {src: "date-locale", expected: "dateLocale"},
+            {src: "hybrid-js-utils", expected: "hybridJsUtils"}
         ];
 
         checks.forEach(({src, expected}) => {
@@ -364,5 +340,4 @@ describe("HybridJSUtils test", () => {
         expect(Object.keys(result).length).toBe(Object.keys(source).length);
         expect(Object.keys(result)).toEqual(["fooKey", "barKey"]);
     });
-})
-;
+});

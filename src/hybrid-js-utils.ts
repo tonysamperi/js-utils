@@ -1,3 +1,5 @@
+import * as pkg from "../package.json";
+
 /**
  * @private
  */
@@ -20,7 +22,7 @@ export class HybridJSUtils {
     };
 
     static get version(): string {
-        return "3.0.8";
+        return pkg.version;
     }
 
     static resetSettings(): void {
@@ -101,28 +103,6 @@ export class HybridJSUtils {
 
     static isClient(): boolean {
         return typeof window !== "undefined" && !!window.document;
-    }
-
-    static loadJQuery(libVersion: string = "latest", debug?: boolean): Promise<boolean> {
-        const isServer = !HybridJSUtils.isClient();
-        return new Promise<boolean>((resolve) => {
-            if (isServer) {
-                jsVersionError("HybridJsUtils.loadJQuery");
-                resolve(!1);
-                return;
-            }
-            const jq = document.createElement("script");
-            jq.src = `https://ajax.googleapis.com/ajax/libs/jquery/${libVersion}/jquery.min.js`;
-            jq.addEventListener("load", () => {
-                debug && console.info("HybridJSUtils: jQuery loaded.");
-                resolve(!0);
-            });
-            jq.addEventListener("error", (e) => {
-                debug && console.info("HybridJSUtils: jQuery not loaded", e);
-                resolve(!1);
-            });
-            document.getElementsByTagName("head")[0].appendChild(jq);
-        });
     }
 
     static logWithStyle(title: string, msg: string, style: string = ""): void {
@@ -229,7 +209,7 @@ export class HybridJSUtils {
     static toCamelCase(s: string): string {
         return s
             .toLowerCase()
-            .replace(/_/g, " ")
+            .replace(/[_-]/g, " ")
             .replace(/\s(.)/g, ($1: string) => {
                 return $1.toUpperCase();
             })
@@ -256,7 +236,6 @@ export class HybridJSUtils {
 // TO IMPORT SINGLE FUNCTIONS
 export const isClient = HybridJSUtils.isClient;
 export const htmlCountDown = HybridJSUtils.htmlCountDown;
-export const loadJQuery = HybridJSUtils.loadJQuery;
 export const logWithStyle = HybridJSUtils.logWithStyle;
 export const addLeadingZeroes = HybridJSUtils.addLeadingZeroes;
 export const eachFrom = HybridJSUtils.eachFrom;
