@@ -9,8 +9,9 @@
 ## 4.0.0
 * Breaking change: removed loadJquery, because it's pointless
 
-## 3.0.9
+## 3.1.0
 * Improved toCamelCase now handling dashes
+* Breaking change: removed loadJquery, because it's pointless
 
 ## 3.0.8
 * Improved toCamelCase and toSnakeCase to better handle input
