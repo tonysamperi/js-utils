@@ -1,6 +1,8 @@
 import * as pkg from "../package.json";
+
 /**
  * @private
+ * NOTE: can't use this in the exported methods because it wouldn't work when importing aliases!
  */
 
 interface HybridJSUtilsSettings {
@@ -67,6 +69,23 @@ export class HybridJSUtils {
             }
         }
         return array;
+        /*
+         function forEachFrom(arr, index, iteratee) {
+         let idx = isNaN(index)||index < 0
+         ? -1
+         : index;
+         const length = Array.isArray(arr)
+         ? arr.length
+         : 0;
+         while (++idx < length) {
+         if (iteratee(arr[idx], idx, arr) === !1) {
+         break;
+         }
+         }
+
+         return arr;
+         }
+         */
     }
 
     /**
@@ -121,20 +140,33 @@ export class HybridJSUtils {
         return !isNaN(parseInt(value, 10));
     }
 
+    /**
+     * Checks wether a value is strictly an Object
+     * @param entity
+     */
     static isObject(entity: any): boolean {
         return !!entity && entity === Object(entity) && entity.constructor === Object;
     }
 
+    /**
+     * Transform object keys to camelCase recursively
+     * @param source
+     */
     static objectKeysToCamelCase(source: { [key: string]: any }): { [key: string]: any } {
-        const result: { [key: string]: any } = {};
-        Object.keys(source).forEach((key: string) => {
-            // tslint:disable-next-line:max-line-length
-            result[HybridJSUtils.toCamelCase(key)] = Object.keys(source[key]).length > 0 && !Array.isArray(source) ? HybridJSUtils.objectKeysToCamelCase(source[key]) : source[key];
-        });
+        return Object.entries(source).reduce((acc: { [key: string]: any }, [key, value]: [string, any]) => {
+            acc[HybridJSUtils.toCamelCase(key)] = HybridJSUtils.isObject(value) && Object.keys(value).length
+                ? HybridJSUtils.objectKeysToCamelCase(value)
+                : value;
 
-        return result;
+            return acc;
+        }, {});
+
     }
 
+    /**
+     * Generate a random hex string
+     * @param length
+     */
     static randomHex(length: number): string {
         const maxlen = 8;
         const min = Math.pow(16, Math.min(length, maxlen) - 1);
@@ -147,6 +179,13 @@ export class HybridJSUtils {
         return r;
     }
 
+    /**
+     * Generate a random int in the range provided
+     * @param min
+     * @param max
+     * @param excludeMin
+     * @param excludeMax
+     */
     static randomInt(min: number, max: number, excludeMin: boolean | string = !1, excludeMax: boolean | string = !1): number {
         if (isNaN(min) || isNaN(max)) {
             console.warn("Invalid args for JsUtils.randomInt. Returning random between 0 and 100");
@@ -161,6 +200,10 @@ export class HybridJSUtils {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
+    /**
+     * Generate a random numeric string of the given length
+     * @param length
+     */
     static randomNumericString(length: number = 10): string {
         let i = -1;
         const result = [];
@@ -195,6 +238,11 @@ export class HybridJSUtils {
         return Math.round(+value * factor) / factor;
     }
 
+    /**
+     * Replace values in strings where the placeholder (default is %s) is found
+     * @param str the source string
+     * @param argv the parameters
+     */
     static sprintf(str: string, ...argv: (string | number)[]): string {
         if (typeof str !== typeof "") {
             return str;
@@ -203,6 +251,12 @@ export class HybridJSUtils {
         return !argv.length ? str : HybridJSUtils.sprintf(str.replace(HybridJSUtils.settings.SPRINTF_NEEDLE, `${argv.shift()}`), ...argv);
     }
 
+    /**
+     * Like sprintf, but allows a custom needle
+     * @param str
+     * @param needle
+     * @param argv
+     */
     static sprintfx(str: string, needle: string, ...argv: (string | number)[]): string {
         if (typeof str !== typeof "") {
             return str;

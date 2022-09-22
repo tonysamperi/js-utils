@@ -1,5 +1,6 @@
 import {JSDOM} from "jsdom";
 import {HybridJSUtils} from "../src/hybrid-js-utils";
+import {objectKeysToCamelCase} from "../src/hybrid-js-utils";
 import * as pkg from "../package.json";
 
 const html = `<!DOCTYPE html>
@@ -48,7 +49,18 @@ describe("HybridJSUtils test", () => {
         });
     });
 
-    it("should reset settings", () => {
+    it("should update the settings", () => {
+        HybridJSUtils.settings = {
+            SPRINTF_NEEDLE: "@"
+        };
+
+        expect(HybridJSUtils.settings).toEqual({
+            SPRINTF_NEEDLE: "@"
+        });
+        HybridJSUtils.resetSettings();
+    });
+
+    it("should reset the settings", () => {
         HybridJSUtils.settings = {
             SPRINTF_NEEDLE: "@"
         };
@@ -378,13 +390,41 @@ describe("HybridJSUtils test", () => {
     });
 
     it("should convert object keys", () => {
-        const source = {
+        const inner = {
             foo_key: 1,
-            bar_key: 2
+            bar_key: 2,
+            goo_key: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        };
+        const source = {
+            ...inner,
+            car_key: {
+                ...inner
+            }
         };
         const result = HybridJSUtils.objectKeysToCamelCase(source);
         expect(Object.keys(result).length).toBe(Object.keys(source).length);
-        expect(Object.keys(result)).toEqual(["fooKey", "barKey"]);
+        expect(Object.keys(result)).toEqual(["fooKey", "barKey", "gooKey", "carKey"]);
+        expect(result.carKey).toBeDefined();
+        expect(Object.keys(result.carKey)).toEqual(["fooKey", "barKey", "gooKey"]);
+    });
+
+    it("should convert object keys using the alias", () => {
+        const inner = {
+            foo_key: 1,
+            bar_key: 2,
+            goo_key: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        };
+        const source = {
+            ...inner,
+            car_key: {
+                ...inner
+            }
+        };
+        const result = objectKeysToCamelCase(source);
+        expect(Object.keys(result).length).toBe(Object.keys(source).length);
+        expect(Object.keys(result)).toEqual(["fooKey", "barKey", "gooKey", "carKey"]);
+        expect(result.carKey).toBeDefined();
+        expect(Object.keys(result.carKey)).toEqual(["fooKey", "barKey", "gooKey"]);
     });
 })
 ;
