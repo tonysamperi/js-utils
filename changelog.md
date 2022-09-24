@@ -1,5 +1,12 @@
 # Hybrid Js Utils
 
+## 4.1.0
+* Completely revisited String processing, inspired by lodash
+* Added stripEmojis
+* Added toKebabCase
+* Added toUpperSnakeCase
+* Added toPascalCase
+
 ## 4.0.5
 
 * Fixed changelog

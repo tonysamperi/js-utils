@@ -1,4 +1,6 @@
 import * as pkg from "../package.json";
+import {asciiWords} from "./util/ascii-words";
+import {hasUnicodeWord, rsEmoji, unicodeWords} from "./util/unicode-words";
 
 /**
  * @private
@@ -265,30 +267,43 @@ export class HybridJSUtils {
         return !argv.length ? str : HybridJSUtils.sprintfx(str.replace(needle, `${argv.shift()}`), needle, ...argv);
     }
 
+    static stripEmojis(s: string): string {
+        return s.replace(new RegExp(`${rsEmoji}`), "");
+    }
+
     static toCamelCase(s: string): string {
-        return s
-            .toLowerCase()
-            .replace(/[_-]/g, " ")
-            .replace(/\s(.)/g, ($1: string) => {
-                return $1.toUpperCase();
-            })
-            .replace(/\s/g, "")
-            .replace(/^(.)/, ($1: string) => {
-                return $1.toLowerCase();
-            });
+        return HybridJSUtils.words(s.replace(/['\u2019]/g, "")).reduce((res, word, index) => {
+            word = word.toLowerCase();
+            return (
+                res + (index ? word.charAt(0).toUpperCase() + word.slice(1) : word)
+            );
+        }, "");
+    }
+
+    static toKebabCase(s: string): string {
+        return HybridJSUtils.words(s.replace(/['\u2019]/g, "")).join("-").toLowerCase();
+    }
+
+    static toPascalCase(s: string): string {
+        return HybridJSUtils.toCamelCase(s).replace(/^(.)/, ($1) => {
+            return $1.toUpperCase();
+        });
     }
 
     static toSnakeCase(s: string): string {
-        return s
-            .toLowerCase()
-            .replace(/\s+/g, "_")
-            .replace(/\s(.)/g, ($1: string) => {
-                return $1.toUpperCase();
-            })
-            .replace(/\s/g, "")
-            .replace(/^(.)/, ($1: string) => {
-                return $1.toLowerCase();
-            });
+        return HybridJSUtils.words(s.replace(/['\u2019]/g, "")).join("_").toLowerCase();
+    }
+
+    static toUpperSnakeCase(s: string): string {
+        return HybridJSUtils.toSnakeCase(s).toUpperCase();
+    }
+
+    static words(string: string, pattern?: RegExp): string[] {
+        if (pattern === void 0) {
+            const result = hasUnicodeWord(string) ? unicodeWords(string) : asciiWords(string);
+            return result || [];
+        }
+        return string.match(pattern) || [];
     }
 }
 

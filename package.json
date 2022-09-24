@@ -1,6 +1,6 @@
 {
   "name": "hybrid-js-utils",
-  "version": "4.0.5",
+  "version": "4.1.0",
   "description": "A set of commonly used JS functions",
   "repository": {
     "type": "git",
@@ -34,7 +34,6 @@
   "scripts": {
     "lint": "tslint --project tsconfig.json src/**/*.ts -t codeFrame",
     "lint:tests": "tslint  --project ./test/tsconfig.json -t codeFrame",
-    "publish": "npm publish",
     "tag": "gulp tag",
     "build": "rollup -c rollup.config.js",
     "start": "rollup -c rollup.config.ts -w",

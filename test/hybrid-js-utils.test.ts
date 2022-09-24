@@ -361,12 +361,19 @@ describe("HybridJSUtils test", () => {
      * STRING MANIPULATION
      */
 
+    it("should strip emojis", () => {
+        const result = HybridJSUtils.stripEmojis("Hi I'm John 😁");
+
+        expect(result).toBe("Hi I'm John ");
+    });
+
     it("should 'camelCase' a string", () => {
         const checks = [
-            {src: "Hi I'm John", expected: "hiI'mJohn"},
+            {src: "Hi I'm John", expected: "hiImJohn"},
             {src: "DOWNLOAD_GIFTCARDS", expected: "downloadGiftcards"},
             {src: "date-locale", expected: "dateLocale"},
-            {src: "hybrid-js-utils", expected: "hybridJsUtils"}
+            {src: "hybrid-js-utils", expected: "hybridJsUtils"},
+            {src: "toCamelCase", expected: "toCamelCase"}
         ];
 
         checks.forEach(({src, expected}) => {
@@ -376,14 +383,63 @@ describe("HybridJSUtils test", () => {
         });
     });
 
+    it("should 'kebabCase' a string", () => {
+        const checks = [
+            {src: "Hi I'm John", expected: "hi-im-john"},
+            {src: "DOWNLOAD_GIFTCARDS", expected: "download-giftcards"},
+            {src: "from_lower", expected: "from-lower"},
+            {src: "fromCamelCase", expected: "from-camel-case"},
+            {src: "Hi I'm John 😁", expected: "hi-im-john-😁"}
+        ];
+
+        checks.forEach(({src, expected}) => {
+            const result = HybridJSUtils.toKebabCase(src);
+            expect(result).toBeDefined();
+            expect(result).toBe(expected);
+        });
+    });
+
+    it("should 'pascalCase' a string", () => {
+        const checks = [
+            {src: "Hi I'm John", expected: "HiImJohn"},
+            {src: "DOWNLOAD_GIFTCARDS", expected: "DownloadGiftcards"},
+            {src: "date-locale", expected: "DateLocale"},
+            {src: "hybrid-js-utils", expected: "HybridJsUtils"},
+            {src: "toCamelCase", expected: "ToCamelCase"},
+            {src: "AlreadyPascal", expected: "AlreadyPascal"}
+        ];
+
+        checks.forEach(({src, expected}) => {
+            const result = HybridJSUtils.toPascalCase(src);
+            expect(result).toBeDefined();
+            expect(result).toBe(expected);
+        });
+    });
+
     it("should 'snakeCase' a string", () => {
         const checks = [
-            {src: "Hi I'm John", expected: "hi_i'm_john"},
-            {src: "DOWNLOAD_GIFTCARDS", expected: "download_giftcards"}
+            {src: "Hi I'm John", expected: "hi_im_john"},
+            {src: "DOWNLOAD_GIFTCARDS", expected: "download_giftcards"},
+            {src: "PascalCase", expected: "pascal_case"}
         ];
 
         checks.forEach(({src, expected}) => {
             const result = HybridJSUtils.toSnakeCase(src);
+            expect(result).toBeDefined();
+            expect(result).toBe(expected);
+        });
+    });
+
+    it("should 'upperSnakeCase' a string", () => {
+        const checks = [
+            {src: "Hi I'm John", expected: "HI_IM_JOHN"},
+            {src: "DOWNLOAD_GIFTCARDS", expected: "DOWNLOAD_GIFTCARDS"},
+            {src: "from_lower", expected: "FROM_LOWER"},
+            {src: "fromCamelCase", expected: "FROM_CAMEL_CASE"}
+        ];
+
+        checks.forEach(({src, expected}) => {
+            const result = HybridJSUtils.toUpperSnakeCase(src);
             expect(result).toBeDefined();
             expect(result).toBe(expected);
         });
